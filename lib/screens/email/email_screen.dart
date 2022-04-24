@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '/models/Email.dart';
+import '../../models/email.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../utils/constants.dart';

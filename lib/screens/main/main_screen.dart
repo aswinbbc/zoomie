@@ -30,7 +30,7 @@ class MainScreen extends StatelessWidget {
             // Once our width is less then 1300 then it start showing errors
             // Now there is no error if our width is less then 1340
             Expanded(
-              flex: _size.width > 1340 ? 2 : 4,
+              flex: _size.width > 1340 ? 2 : 5,
               child: SideMenu(),
             ),
             Expanded(
@@ -38,7 +38,7 @@ class MainScreen extends StatelessWidget {
               child: ListOfEmails(),
             ),
             Expanded(
-              flex: _size.width > 1340 ? 8 : 10,
+              flex: _size.width > 1340 ? 8 : 9,
               child: EmailScreen(),
             ),
           ],

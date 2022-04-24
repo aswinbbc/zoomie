@@ -1,18 +1,28 @@
 import 'package:flutter/material.dart';
-import '/responsive.dart';
-import 'package:websafe_svg/websafe_svg.dart';
+import 'package:zoomie_kot/components/pending.dart';
 
+import '/responsive.dart';
 import '../utils/constants.dart';
 import '../extensions.dart';
 import 'side_menu_item.dart';
-import 'tags.dart';
-
+import 'tables.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
-class SideMenu extends StatelessWidget {
-  const SideMenu({
+import 'take_away.dart';
+
+class SideMenu extends StatefulWidget {
+  SideMenu({
     Key? key,
   }) : super(key: key);
+  static List<Widget> items = [Tables(), TakeAway(), Pending()];
+  final username = "aswin.T";
+
+  @override
+  State<SideMenu> createState() => _SideMenuState();
+}
+
+class _SideMenuState extends State<SideMenu> {
+  var selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +35,9 @@ class SideMenu extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
           child: Column(
             children: [
+              const SizedBox(height: 8),
+              AppBar(title: Text("name : ${widget.username}"), elevation: 0)
+                  .addNeumorphism(),
               Row(
                 children: [
                   Spacer(),
@@ -32,66 +45,39 @@ class SideMenu extends StatelessWidget {
                   if (!Responsive.isDesktop(context)) CloseButton(),
                 ],
               ),
-              SizedBox(height: kDefaultPadding),
-              ElevatedButton.icon(
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                  ),
-                ),
-                onPressed: () {},
-                icon: WebsafeSvg.asset("assets/Icons/Edit.svg", width: 16),
-                label: Text(
-                  "New message",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ).addNeumorphism(
-                topShadowColor: Colors.white,
-                bottomShadowColor: Color(0xFF234395).withOpacity(0.2),
-              ),
-              SizedBox(height: kDefaultPadding),
-              TextButton.icon(
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                  ),
-                ),
-                onPressed: () {},
-                icon: WebsafeSvg.asset("assets/Icons/Download.svg", width: 16),
-                label: Text(
-                  "Get messages",
-                  style: TextStyle(color: kTextColor),
-                ),
-              ).addNeumorphism(),
-              SizedBox(height: kDefaultPadding * 2),
-              // Menu Items
               SideMenuItem(
-                press: () {},
+                press: () {
+                  setState(() {
+                    selectedIndex = 0;
+                  });
+                },
                 title: "Dining",
-                iconSrc: "assets/Icons/Inbox.svg",
-                isActive: true,
+                iconSrc: "assets/Icons/Plus.svg",
+                isActive: selectedIndex == 0,
               ),
               SideMenuItem(
-                press: () {},
+                press: () {
+                  setState(() {
+                    selectedIndex = 1;
+                  });
+                },
                 title: "Take away",
                 iconSrc: "assets/Icons/Send.svg",
-                isActive: false,
+                isActive: selectedIndex == 1,
               ),
               SideMenuItem(
-                press: () {},
+                press: () {
+                  setState(() {
+                    selectedIndex = 2;
+                  });
+                },
                 title: "Pending",
                 iconSrc: "assets/Icons/File.svg",
-                isActive: false,
+                isActive: selectedIndex == 2,
                 itemCount: 3,
               ),
-
               SizedBox(height: kDefaultPadding * 2),
-              // Tags
-              Tags(),
+              SideMenu.items[selectedIndex],
             ],
           ),
         ),
