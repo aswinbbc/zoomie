@@ -5,7 +5,7 @@ import '/responsive.dart';
 import '/screens/email/email_screen.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
-import '../../../constants.dart';
+import '../../../utils/constants.dart';
 import 'email_card.dart';
 
 import 'package:flutter/foundation.dart' show kIsWeb;

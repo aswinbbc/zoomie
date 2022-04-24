@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '/models/Email.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
-import '../../../constants.dart';
+import '../../../utils/constants.dart';
 import '../../../extensions.dart';
 
 class EmailCard extends StatelessWidget {

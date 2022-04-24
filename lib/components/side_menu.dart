@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '/responsive.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
-import '../constants.dart';
+import '../utils/constants.dart';
 import '../extensions.dart';
 import 'side_menu_item.dart';
 import 'tags.dart';
@@ -27,25 +27,20 @@ class SideMenu extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Image.asset(
-                    "assets/images/Logo Outlook.png",
-                    width: 46,
-                  ),
                   Spacer(),
                   // We don't want to show this close button on Desktop mood
                   if (!Responsive.isDesktop(context)) CloseButton(),
                 ],
               ),
               SizedBox(height: kDefaultPadding),
-              FlatButton.icon(
-                minWidth: double.infinity,
-                padding: EdgeInsets.symmetric(
-                  vertical: kDefaultPadding,
+              ElevatedButton.icon(
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
                 ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                color: kPrimaryColor,
                 onPressed: () {},
                 icon: WebsafeSvg.asset("assets/Icons/Edit.svg", width: 16),
                 label: Text(
@@ -57,15 +52,14 @@ class SideMenu extends StatelessWidget {
                 bottomShadowColor: Color(0xFF234395).withOpacity(0.2),
               ),
               SizedBox(height: kDefaultPadding),
-              FlatButton.icon(
-                minWidth: double.infinity,
-                padding: EdgeInsets.symmetric(
-                  vertical: kDefaultPadding,
+              TextButton.icon(
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
                 ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                color: kBgDarkColor,
                 onPressed: () {},
                 icon: WebsafeSvg.asset("assets/Icons/Download.svg", width: 16),
                 label: Text(
@@ -77,29 +71,22 @@ class SideMenu extends StatelessWidget {
               // Menu Items
               SideMenuItem(
                 press: () {},
-                title: "Inbox",
+                title: "Dining",
                 iconSrc: "assets/Icons/Inbox.svg",
                 isActive: true,
-                itemCount: 3,
               ),
               SideMenuItem(
                 press: () {},
-                title: "Sent",
+                title: "Take away",
                 iconSrc: "assets/Icons/Send.svg",
                 isActive: false,
               ),
               SideMenuItem(
                 press: () {},
-                title: "Drafts",
+                title: "Pending",
                 iconSrc: "assets/Icons/File.svg",
                 isActive: false,
-              ),
-              SideMenuItem(
-                press: () {},
-                title: "Deleted",
-                iconSrc: "assets/Icons/Trash.svg",
-                isActive: false,
-                showBorder: false,
+                itemCount: 3,
               ),
 
               SizedBox(height: kDefaultPadding * 2),
