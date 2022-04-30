@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 import 'package:zoomie_kot/extensions.dart';
-
+import 'package:zoomie_kot/models/table.dart' as kot;
+import 'package:zoomie_kot/models/all_lists.dart';
 import '../utils/constants.dart';
 
-class Tables extends StatelessWidget {
-  const Tables({
+class Tables extends StatefulWidget {
+  Tables({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<Tables> createState() => _TablesState();
+}
+
+class _TablesState extends State<Tables> {
+  int selectedId = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -29,24 +37,42 @@ class Tables extends StatelessWidget {
           ],
         ),
         const SizedBox(height: kDefaultPadding / 2),
-        buildTable(context, isSelected: true, title: "table 1"),
-        buildTable(context, title: "table 2"),
-        buildTable(context, title: "table 3"),
-        buildTable(context, title: "table 4"),
+        FutureBuilder(
+          future: getTables(),
+          builder: (context, AsyncSnapshot<List<kot.Table>> snapshot) {
+            if (snapshot.hasData) {
+              List<kot.Table> tables = snapshot.data!;
+              final tableWids = tables
+                  .map((e) => buildTable(context,
+                      title: "table ${e.tableName}",
+                      position: tables.indexOf(e)))
+                  .toList();
+              return Wrap(direction: Axis.horizontal, children: [...tableWids]);
+            } else if (snapshot.hasError) {
+              return const Center(child: Text("error!"));
+            } else {
+              return const Center(child: Text("loading!"));
+            }
+          },
+        ),
       ],
     );
   }
 
   InkWell buildTable(BuildContext context,
-      {bool isSelected = false, required String title}) {
+      {required String title, required int position}) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        setState(() {
+          selectedId = position;
+        });
+      },
       child: Padding(
         padding: const EdgeInsets.fromLTRB(kDefaultPadding * 1.5, 10, 0, 0),
         child: Card(
           shape: RoundedRectangleBorder(
             side: BorderSide(
-              color: isSelected ? Colors.blue : Colors.black,
+              color: selectedId == position ? Colors.blue : Colors.black,
             ),
             borderRadius: BorderRadius.circular(15.0),
           ),
@@ -54,7 +80,7 @@ class Tables extends StatelessWidget {
               leading: WebsafeSvg.asset(
                 "assets/Icons/tb.svg",
                 height: 30,
-                color: isSelected ? Colors.blue : null,
+                color: selectedId == position ? Colors.blue : null,
               ),
               title: Text(title)),
         ).addNeumorphism(),

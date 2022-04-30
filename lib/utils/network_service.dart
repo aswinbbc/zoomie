@@ -16,7 +16,7 @@ Future getData(String url,
   } else {
     result = await http.get(Uri.parse("${Constants.BASE_URL}$url"));
   }
-  print(result.body);
+
   if (result.statusCode == 200) {
     final data = result.body;
     print(data);

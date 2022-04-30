@@ -4,11 +4,10 @@ import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zoomie_kot/utils/constant.dart';
 
-import '../utils/network_service.dart';
+import '../../utils/network_service.dart';
 
 import '/widget/form_button.dart';
 import '/widget/input_field.dart';
-import 'dashboard.dart';
 
 class SimpleLoginScreen extends StatefulWidget {
   const SimpleLoginScreen({Key? key}) : super(key: key);
@@ -28,8 +27,8 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
     super.initState();
 
     Constants.userId.then((value) {
-      Route route = MaterialPageRoute(builder: (context) => Dashboard());
-      Navigator.pushReplacement(myContext!, route);
+      // Route route = MaterialPageRoute(builder: (context) => Dashboard());
+      // Navigator.pushReplacement(myContext!, route);
     });
     email = "";
     password = "";

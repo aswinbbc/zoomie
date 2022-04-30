@@ -52,7 +52,7 @@ class _SideMenuState extends State<SideMenu> {
                   });
                 },
                 title: "Dining",
-                iconSrc: "assets/Icons/Plus.svg",
+                iconSrc: "assets/Icons/food.svg",
                 isActive: selectedIndex == 0,
               ),
               SideMenuItem(
@@ -74,7 +74,6 @@ class _SideMenuState extends State<SideMenu> {
                 title: "Pending",
                 iconSrc: "assets/Icons/File.svg",
                 isActive: selectedIndex == 2,
-                itemCount: 3,
               ),
               SizedBox(height: kDefaultPadding * 2),
               SideMenu.items[selectedIndex],

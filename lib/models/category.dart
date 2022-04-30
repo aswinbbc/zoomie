@@ -1,5 +1,5 @@
 class Category {
-  int? pcId;
+  double? pcId;
   String? pcName;
   bool? isActive;
   String? categImage;

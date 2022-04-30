@@ -1,7 +1,7 @@
 class Table {
-  int? tableId;
+  double? tableId;
   String? tableName;
-  int? noOfChair;
+  double? noOfChair;
   String? narration;
 
   Table({this.tableId, this.tableName, this.noOfChair, this.narration});
