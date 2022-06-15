@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:zoomie_kot/extensions.dart';
 
 import '../../../models/all_lists.dart';
+import '../../../models/category.dart';
 import '../../../utils/constants.dart';
 
 class CategoryChips extends StatefulWidget {
@@ -29,20 +30,21 @@ class _CategoryChipsState extends State<CategoryChips> {
                 "Categories",
                 style: Theme.of(context)
                     .textTheme
-                    .displaySmall!
+                    .headline6!
                     .copyWith(color: kGrayColor),
               ),
             ],
           ),
           FutureBuilder(
             future: getCategories(),
-            builder: (context, snapshot) {
+            builder: (context, AsyncSnapshot<List<Category>> snapshot) {
               if (snapshot.hasData) {
+                List<Category> categories = snapshot.data!;
                 return Wrap(
                   alignment: WrapAlignment.center,
                   spacing: 12.0,
                   children: List<Widget>.generate(
-                    5,
+                    categories.length,
                     (int index) {
                       return Padding(
                         padding: EdgeInsets.only(top: 20),
@@ -51,7 +53,7 @@ class _CategoryChipsState extends State<CategoryChips> {
                           selectedColor: Colors.blue,
                           backgroundColor: Colors.grey[100],
                           label: Text(
-                            "My Custom $index",
+                            categories.elementAt(index).pcName!,
                             style: TextStyle(
                               fontSize: 15.0,
                             ),

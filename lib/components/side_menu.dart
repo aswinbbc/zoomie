@@ -36,14 +36,14 @@ class _SideMenuState extends State<SideMenu> {
           child: Column(
             children: [
               const SizedBox(height: 8),
-              AppBar(title: Text("name : ${widget.username}"), elevation: 0)
-                  .addNeumorphism(),
-              Row(
-                children: [
-                  Spacer(),
-                  // We don't want to show this close button on Desktop mood
-                  if (!Responsive.isDesktop(context)) CloseButton(),
-                ],
+              Card(
+                color: kBgLightColor,
+                child: ListTile(
+                  title: Text("name : ${widget.username}"),
+                  trailing: Wrap(children: [
+                    if (!Responsive.isDesktop(context)) CloseButton(),
+                  ]),
+                ),
               ),
               SideMenuItem(
                 press: () {

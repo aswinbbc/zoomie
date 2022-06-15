@@ -1,15 +1,15 @@
 class Table {
-  double? tableId;
+  int? tableId;
   String? tableName;
-  double? noOfChair;
+  int? noOfChair;
   String? narration;
 
   Table({this.tableId, this.tableName, this.noOfChair, this.narration});
 
   Table.fromJson(Map<String, dynamic> json) {
-    tableId = json['table_id'];
+    tableId = int.parse(json['table_id'].toString());
     tableName = json['table_name'];
-    noOfChair = json['No_of_chair'];
+    noOfChair = int.parse(json['No_of_chair'].toString());
     narration = json['Narration'];
   }
 

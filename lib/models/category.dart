@@ -1,13 +1,13 @@
 class Category {
-  double? pcId;
+  int? pcId;
   String? pcName;
-  bool? isActive;
+  String? isActive;
   String? categImage;
 
   Category({this.pcId, this.pcName, this.isActive, this.categImage});
 
   Category.fromJson(Map<String, dynamic> json) {
-    pcId = json['pc_id'];
+    pcId = int.parse(json['pc_id'].toString());
     pcName = json['pc_name'];
     isActive = json['is_active'];
     categImage = json['categ_image'];
