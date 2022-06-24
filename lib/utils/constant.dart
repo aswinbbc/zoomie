@@ -6,7 +6,7 @@ class Constants {
 
   static const double avatarRadius = 45;
   // static const BASE_URL = "https://hosted_url.com/";
-  static const BASE_URL = "http://192.168.68.125:90/api/";
+  static const BASE_URL = "http://192.168.238.116:90/api/";
 
   static Future<String> get userId async {
     // Obtain shared preferences.

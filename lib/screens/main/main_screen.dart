@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:websafe_svg/websafe_svg.dart';
+import 'package:zoomie_kot/components/products.dart';
 import 'package:zoomie_kot/extensions.dart';
 import 'package:zoomie_kot/models/all_lists.dart';
+import 'package:zoomie_kot/models/provider_model/id_model.dart';
+import '../../components/sub_category_chips.dart';
 import '../../utils/constants.dart';
 import '/components/side_menu.dart';
 import '/responsive.dart';
 import '/screens/email/email_screen.dart';
-import 'components/category_chips.dart';
+import '../../components/category_chips.dart';
 import 'components/list_of_emails.dart';
 
 class MainScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  MainScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     // It provide us the width and height
@@ -23,34 +29,51 @@ class MainScreen extends StatelessWidget {
       ),
       body: Responsive(
         // Let's work on our mobile part
-        mobile: ListOfEmails(),
+        mobile: Stack(children: [
+          if (!Responsive.isDesktop(context))
+            IconButton(
+              icon: Icon(Icons.menu),
+              onPressed: () {
+                _scaffoldKey.currentState!.openDrawer();
+              },
+            ),
+          Column(
+            children: [
+              Expanded(child: CategoryChips()),
+              Expanded(child: SubCategoryChips()),
+              Expanded(child: Placeholder()),
+            ],
+          )
+        ]),
         tablet: Row(
           children: [
             Expanded(
-              flex: 6,
-              child: Scaffold(
-                  body: Column(
+              flex: 4,
+              child: Stack(
                 children: [
-                  Row(
+                  Column(
                     children: [
-                      // Once user click the menu icon the menu shows like drawer
-                      // Also we want to hide this menu icon on desktop
-                      if (!Responsive.isDesktop(context))
-                        IconButton(
-                          icon: Icon(Icons.menu),
-                          onPressed: () {
-                            _scaffoldKey.currentState!.openDrawer();
-                          },
-                        ),
+                      Expanded(child: CategoryChips()),
+                      Expanded(child: SubCategoryChips()),
                     ],
                   ),
-                  CategoryChips(),
+                  if (!Responsive.isDesktop(context))
+                    IconButton(
+                      icon: Icon(Icons.menu),
+                      onPressed: () {
+                        _scaffoldKey.currentState!.openDrawer();
+                      },
+                    ),
                 ],
-              )),
+              ),
             ),
             Expanded(
-              flex: 9,
-              child: EmailScreen(),
+              flex: 4,
+              child: ProductsWidget(),
+            ),
+            Expanded(
+              flex: 5,
+              child: Placeholder(),
             ),
           ],
         ),
@@ -65,17 +88,16 @@ class MainScreen extends StatelessWidget {
             Expanded(
               flex: _size.width > 1340 ? 3 : 6,
               child: Column(children: const [
-                Expanded(child: CategoryChips()),
                 Expanded(
-                    child: Placeholder(
-                  color: Colors.green,
-                )),
+                  child: CategoryChips(),
+                ),
+                Expanded(
+                  child: SubCategoryChips(),
+                ),
               ]),
-              // child: ListOfEmails(),
             ),
             Expanded(
               flex: _size.width > 1340 ? 8 : 8,
-              // child: EmailScreen(),
               child: Placeholder(),
             ),
           ],

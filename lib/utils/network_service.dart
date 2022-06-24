@@ -19,7 +19,7 @@ Future getData(String url,
 
   if (result.statusCode == 200) {
     final data = result.body;
-    print(data);
+    // print(data);
     return jsonDecode(data);
   }
 }

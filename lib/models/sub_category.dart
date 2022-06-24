@@ -14,11 +14,12 @@ class SubCategory {
   });
 
   SubCategory.fromJson(Map<String, dynamic> json) {
-    idForDisplay = json['IdForDisplay'];
-    isProduct = json['IsProduct'];
+    idForDisplay = int.parse(json['IdForDisplay'].toString());
+    isProduct = int.parse(json['IsProduct'].toString());
     subCategoryName = json['sub_category_name'];
-    categId = json['Categ_id'];
+    categId = int.parse(json['Categ_id'].toString());
     itemImage = json['item_image'];
+    print(itemImage);
   }
 
   Map<String, dynamic> toJson() {

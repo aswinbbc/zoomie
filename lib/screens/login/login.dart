@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zoomie_kot/screens/main/main_screen.dart';
 import 'package:zoomie_kot/utils/constant.dart';
 
 import '../../utils/network_service.dart';
@@ -80,83 +81,108 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: ListView(
-          children: [
-            SizedBox(height: screenHeight * .05),
-            Image.network(
-              'https://c.tenor.com/hE0T8D0GpXsAAAAC/joinblink-blink.gif',
-              height: 220,
-            ),
-            SizedBox(height: screenHeight * .05),
-            Visibility(
-              child: Center(child: CircularProgressIndicator()),
-              visible: checker,
-            ),
-            InputField(
-              onChanged: (value) {
-                setState(() {
-                  email = value;
-                });
-              },
-              labelText: "Email",
-              errorText: emailError,
-              keyboardType: TextInputType.emailAddress,
-              textInputAction: TextInputAction.next,
-              autoFocus: true,
-            ),
-            SizedBox(height: screenHeight * .025),
-            InputField(
-              onChanged: (value) {
-                setState(() {
-                  password = value;
-                });
-              },
-              onSubmitted: (val) => submit(),
-              labelText: "Password",
-              errorText: passwordError,
-              obscureText: true,
-              textInputAction: TextInputAction.next,
-            ),
-            SizedBox(
-              height: screenHeight * .075,
-            ),
-            FormButton(
-              text: "Log In",
-              onPressed: submit,
-            ),
-            SizedBox(
-              height: screenHeight * .015,
-            ),
-          ],
-        ),
+        child: OrientationBuilder(builder: (context, orientation) {
+          if (orientation == Orientation.portrait) {
+            return ListView(
+              children: [
+                SizedBox(height: screenHeight * .05),
+                Image.network(
+                  'https://c.tenor.com/hE0T8D0GpXsAAAAC/joinblink-blink.gif',
+                  height: 220,
+                ),
+                ...loginPage(screenHeight),
+              ],
+            );
+          } else {
+            return Row(
+              children: [
+                Expanded(
+                  child: Center(
+                    child: Image.network(
+                      'https://c.tenor.com/hE0T8D0GpXsAAAAC/joinblink-blink.gif',
+                      height: 220,
+                    ),
+                  ),
+                ),
+                Expanded(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: loginPage(screenHeight),
+                ))
+              ],
+            );
+          }
+        }),
       ),
     );
   }
 
+  List<Widget> loginPage(screenHeight) {
+    return [
+      SizedBox(height: screenHeight * .05),
+      Visibility(
+        child: Center(child: CircularProgressIndicator()),
+        visible: checker,
+      ),
+      InputField(
+        onChanged: (value) {
+          setState(() {
+            email = value;
+          });
+        },
+        labelText: "Email",
+        errorText: emailError,
+        keyboardType: TextInputType.emailAddress,
+        textInputAction: TextInputAction.next,
+        autoFocus: true,
+      ),
+      SizedBox(height: screenHeight * .025),
+      InputField(
+        onChanged: (value) {
+          setState(() {
+            password = value;
+          });
+        },
+        onSubmitted: (val) => submit(),
+        labelText: "Password",
+        errorText: passwordError,
+        obscureText: true,
+        textInputAction: TextInputAction.next,
+      ),
+      SizedBox(
+        height: screenHeight * .075,
+      ),
+      FormButton(
+        text: "Log In",
+        onPressed: submit,
+      ),
+      SizedBox(
+        height: screenHeight * .015,
+      ),
+    ];
+  }
+
   login(String? email, String? password, context) {
-    getData("login.php", params: {
-      "email": email,
-      "password": password,
-    }).then((value) async {
-      if (value['status'] as bool) {
-        // Obtain shared preferences.
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('user_id', value['0']['s_register_id']);
-        Fluttertoast.showToast(msg: "welcome.");
-        if (value['0']['role'] == '2') {
-          // Route route =
-          //     MaterialPageRoute(builder: (context) => CustomerDashboard());
-          // Navigator.pushReplacement(myContext!, route);
-        } else {
-          // Route route =
-          //     MaterialPageRoute(builder: (context) => ShopDashboard());
-          // Navigator.pushReplacement(myContext!, route);
-        }
-      } else {
-        Fluttertoast.showToast(msg: "username or password incorrect.");
-      }
-    });
+    Route route = MaterialPageRoute(builder: (context) => MainScreen());
+    Navigator.pushReplacement(myContext!, route);
+    // getData("login.php", params: {
+    //   "email": email,
+    //   "password": password,
+    // }).then((value) async {
+    //   if (value['status'] as bool) {
+    //     // Obtain shared preferences.
+    //     final prefs = await SharedPreferences.getInstance();
+    //     await prefs.setString('user_id', value['0']['s_register_id']);
+    //     Fluttertoast.showToast(msg: "welcome.");
+
+    //     Route route = MaterialPageRoute(builder: (context) => MainScreen());
+    //     Navigator.pushReplacement(myContext!, route);
+    //   } else {
+    //     Fluttertoast.showToast(msg: "username or password incorrect.");
+    //   }
+    // });
   }
 }
