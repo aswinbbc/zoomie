@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '/components/side_menu.dart';
 import '../../../models/email.dart';
 import '/responsive.dart';
-import '/screens/email/email_screen.dart';
+import '/screens/sample/email_screen.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../../utils/constants.dart';

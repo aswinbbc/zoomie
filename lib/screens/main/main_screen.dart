@@ -9,7 +9,7 @@ import '../../components/sub_category_chips.dart';
 import '../../utils/constants.dart';
 import '/components/side_menu.dart';
 import '/responsive.dart';
-import '/screens/email/email_screen.dart';
+import '/screens/sample/email_screen.dart';
 import '../../components/category_chips.dart';
 import 'components/list_of_emails.dart';
 
