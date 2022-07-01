@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zoomie_kot/extensions.dart';
 import 'package:zoomie_kot/models/product.dart';
+import 'package:zoomie_kot/widget/product_card.dart';
 
 import '../models/all_lists.dart';
 import '../models/provider_model/id_model.dart';
 import '../models/sub_category.dart';
+import '../utils/constants.dart';
 
 class ProductsWidget extends StatefulWidget {
   const ProductsWidget({Key? key}) : super(key: key);
@@ -20,23 +22,8 @@ class _ProductsWidgetState extends State<ProductsWidget> {
   Widget build(BuildContext context) {
     return Consumer<IdModel>(builder: (context, idModel, child) {
       print(idModel.getSubCategoryId);
-      return Column(
+      return Row(
         children: [
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: [
-          //     // WebsafeSvg.asset("assets/Icons/Plus.svg", width: 16),
-          //     // SizedBox(width: kDefaultPadding / 4),
-
-          //     // Text(
-          //     //   "Sub Categories",
-          //     //   style: Theme.of(context)
-          //     //       .textTheme
-          //     //       .headline6!
-          //     //       .copyWith(color: kGrayColor),
-          //     // ),
-          //   ],
-          // ),
           FutureBuilder(
             future: getProduct(idModel.getSubCategoryId),
             builder: (context, AsyncSnapshot<List<Product>> snapshot) {
@@ -52,26 +39,8 @@ class _ProductsWidgetState extends State<ProductsWidget> {
                         children: List<Widget>.generate(
                           products.length,
                           (int index) {
-                            return Padding(
-                              padding: EdgeInsets.only(top: 20),
-                              child: ChoiceChip(
-                                pressElevation: 0.0,
-                                selectedColor: Colors.blue,
-                                backgroundColor: Colors.grey[100],
-                                label: Text(
-                                  products.elementAt(index).prodName!,
-                                  style: TextStyle(
-                                    fontSize: 15.0,
-                                  ),
-                                ),
-                                selected: _value == index,
-                                onSelected: (bool selected) {
-                                  setState(() {
-                                    _value = selected ? index : -1;
-                                  });
-                                },
-                              ).addNeumorphism(),
-                            );
+                            return ProductCard(
+                                product: products.elementAt(index));
                           },
                         ).toList(),
                       ),
@@ -82,6 +51,16 @@ class _ProductsWidgetState extends State<ProductsWidget> {
                 return CircularProgressIndicator();
               }
             },
+          ),
+          RotatedBox(
+            quarterTurns: 5,
+            child: Text(
+              "Products",
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6!
+                  .copyWith(color: kGrayColor),
+            ),
           ),
         ],
       );

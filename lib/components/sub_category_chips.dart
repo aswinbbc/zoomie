@@ -22,23 +22,8 @@ class _SubCategoryChipsState extends State<SubCategoryChips> {
   @override
   Widget build(BuildContext context) {
     return Consumer<IdModel>(builder: (context, categoryModel, child) {
-      return Column(
+      return Row(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              //     // WebsafeSvg.asset("assets/Icons/Plus.svg", width: 16),
-              //     // SizedBox(width: kDefaultPadding / 4),
-
-              Text(
-                "Sub Categories",
-                style: Theme.of(context)
-                    .textTheme
-                    .headline6!
-                    .copyWith(color: kGrayColor),
-              ),
-            ],
-          ),
           FutureBuilder(
             future: getSubCategory(categoryModel.getCategoryId),
             builder: (context, AsyncSnapshot<List<SubCategory>> snapshot) {
@@ -46,48 +31,53 @@ class _SubCategoryChipsState extends State<SubCategoryChips> {
                 List<SubCategory> categories = snapshot.data!;
                 return Expanded(
                   child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.all(18.0),
-                      child: Wrap(
-                        alignment: WrapAlignment.center,
-                        spacing: 12.0,
-                        children: List<Widget>.generate(
-                          categories.length,
-                          (int index) {
-                            return Padding(
-                              padding: EdgeInsets.only(top: 20),
-                              child: ChoiceChip(
-                                pressElevation: 0.0,
-                                selectedColor: Colors.blue,
-                                backgroundColor: Colors.grey[100],
-                                label: Text(
+                    child: Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: 12.0,
+                      children: List<Widget>.generate(
+                        categories.length,
+                        (int index) {
+                          return Padding(
+                            padding: EdgeInsets.only(top: 20),
+                            child: ChoiceChip(
+                              avatar: const Image(
+                                image: NetworkImage(
+                                    "https://i.pinimg.com/originals/dd/9d/c9/dd9dc9d83423bc037b511d73b29e6b80.png"),
+                                // color: Colors.red,
+                              ),
+                              pressElevation: 0.0,
+                              selectedColor: Colors.blue,
+                              backgroundColor: Colors.grey[100],
+                              label: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
                                   categories.elementAt(index).subCategoryName!,
                                   style: TextStyle(
-                                    fontSize: 15.0,
+                                    fontSize: 20.0,
                                   ),
                                 ),
-                                selected: _value == index,
-                                onSelected: (bool selected) {
-                                  print("sub c :" +
-                                      categories
-                                          .elementAt(index)
-                                          .categId
-                                          .toString());
-                                  Provider.of<IdModel>(context, listen: false)
-                                          .setSubCategoryId =
-                                      categories
-                                          .elementAt(index)
-                                          .categId
-                                          .toString();
-                                  setState(() {
-                                    _value = selected ? index : -1;
-                                  });
-                                },
-                              ).addNeumorphism(),
-                            );
-                          },
-                        ).toList(),
-                      ),
+                              ),
+                              selected: _value == index,
+                              onSelected: (bool selected) {
+                                print("sub c :" +
+                                    categories
+                                        .elementAt(index)
+                                        .categId
+                                        .toString());
+                                Provider.of<IdModel>(context, listen: false)
+                                        .setSubCategoryId =
+                                    categories
+                                        .elementAt(index)
+                                        .categId
+                                        .toString();
+                                setState(() {
+                                  _value = selected ? index : -1;
+                                });
+                              },
+                            ).addNeumorphism(),
+                          );
+                        },
+                      ).toList(),
                     ),
                   ),
                 );
@@ -95,6 +85,16 @@ class _SubCategoryChipsState extends State<SubCategoryChips> {
                 return CircularProgressIndicator();
               }
             },
+          ),
+          RotatedBox(
+            quarterTurns: 5,
+            child: Text(
+              "Sub Categories",
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6!
+                  .copyWith(color: kGrayColor),
+            ),
           ),
         ],
       );

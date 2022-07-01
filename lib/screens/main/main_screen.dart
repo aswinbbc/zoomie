@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 import 'package:zoomie_kot/components/products.dart';
@@ -30,19 +31,34 @@ class MainScreen extends StatelessWidget {
       body: Responsive(
         // Let's work on our mobile part
         mobile: Stack(children: [
-          if (!Responsive.isDesktop(context))
-            IconButton(
-              icon: Icon(Icons.menu),
-              onPressed: () {
-                _scaffoldKey.currentState!.openDrawer();
-              },
-            ),
           Column(
             children: [
               Expanded(child: CategoryChips()),
               Expanded(child: SubCategoryChips()),
-              Expanded(child: Placeholder()),
+              Expanded(child: ProductsWidget()),
             ],
+          ),
+          if (!Responsive.isDesktop(context))
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FloatingActionButton(
+                // elevation: 0.05,
+                // backgroundColor: Colors.transparent,
+                child: Icon(Icons.menu),
+                onPressed: () {
+                  _scaffoldKey.currentState!.openDrawer();
+                },
+              ),
+            ),
+          Align(
+            alignment: Alignment.topRight,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FloatingActionButton(
+                child: const Icon(FontAwesomeIcons.cartShopping),
+                onPressed: () {},
+              ),
+            ),
           )
         ]),
         tablet: Row(
@@ -98,7 +114,7 @@ class MainScreen extends StatelessWidget {
             ),
             Expanded(
               flex: _size.width > 1340 ? 8 : 8,
-              child: Placeholder(),
+              child: ProductsWidget(),
             ),
           ],
         ),

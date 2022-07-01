@@ -43,6 +43,7 @@ dependencies:
   lottie: ^1.2.2
   websafe_svg: ^2.1.1
   provider: ^6.0.3
+  font_awesome_flutter: ^10.1.0
 
 dev_dependencies:
   flutter_test:
