@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zoomie_kot/models/provider_model/id_model.dart';
+import 'package:zoomie_kot/models/provider_model/product_list.dart';
 import 'package:zoomie_kot/screens/login/login.dart';
 import 'screens/main/main_screen.dart';
 
@@ -9,6 +10,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => IdModel()),
+        ChangeNotifierProvider(create: (context) => ProductsListModel()),
       ],
       child: MyApp(),
     ),

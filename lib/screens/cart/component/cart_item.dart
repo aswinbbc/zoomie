@@ -2,17 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:zoomie_kot/extensions.dart';
-import 'package:zoomie_kot/models/product.dart';
-import 'package:zoomie_kot/models/provider_model/product_list.dart';
 
-class ProductCard extends StatefulWidget {
-  const ProductCard({Key? key, required this.product}) : super(key: key);
+import '../../../models/product.dart';
+import '../../../models/provider_model/product_list.dart';
+
+class CartProductCard extends StatefulWidget {
+  const CartProductCard(
+      {Key? key,
+      required this.product,
+      required this.index,
+      required this.count})
+      : super(key: key);
   final Product product;
+  final int index, count;
   @override
-  State<ProductCard> createState() => _ProductCardState();
+  State<CartProductCard> createState() => _CartProductCardState();
 }
 
-class _ProductCardState extends State<ProductCard> {
+class _CartProductCardState extends State<CartProductCard> {
   late final Product _product;
   @override
   void initState() {
@@ -34,9 +41,16 @@ class _ProductCardState extends State<ProductCard> {
               // color: Colors.red,
             ),
             title: Text(_product.prodName!),
-            trailing: CounterWidget(getCount: (count) {
-              productList.add(_product, count);
-            }),
+            trailing: CounterWidget(
+              defaultCount: widget.count,
+              getCount: (count) {
+                productList.edit(widget.index, _product, count);
+              },
+              onRemove: () {
+                productList
+                    .delete(productList.productList.elementAt(widget.index));
+              },
+            ),
           );
         }),
       ).addNeumorphism(),
@@ -45,14 +59,26 @@ class _ProductCardState extends State<ProductCard> {
 }
 
 class CounterWidget extends StatefulWidget {
-  const CounterWidget({Key? key, required this.getCount}) : super(key: key);
+  const CounterWidget(
+      {Key? key,
+      required this.getCount,
+      required this.defaultCount,
+      required this.onRemove})
+      : super(key: key);
   final Function(int) getCount;
+  final VoidCallback onRemove;
+  final int defaultCount;
   @override
   State<CounterWidget> createState() => _CounterWidgetState();
 }
 
 class _CounterWidgetState extends State<CounterWidget> {
-  int _count = 1;
+  late int _count;
+  @override
+  void initState() {
+    super.initState();
+    _count = widget.defaultCount;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,8 +127,18 @@ class _CounterWidgetState extends State<CounterWidget> {
               onPressed: () {
                 widget.getCount(_count);
               },
-              child: const Text("Add")),
-        )
+              child: Text("edit")),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: ElevatedButton(
+              style: ButtonStyle(
+                  foregroundColor: MaterialStateProperty.all<Color>(
+                Colors.red,
+              )),
+              onPressed: widget.onRemove,
+              child: Text("remove")),
+        ),
       ],
     );
   }
