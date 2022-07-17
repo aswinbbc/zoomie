@@ -27,6 +27,7 @@ class _CategoryChipsState extends State<CategoryChips> {
               List<Category> categories = snapshot.data!;
               return Expanded(
                 child: SingleChildScrollView(
+                  controller: ScrollController(),
                   child: Wrap(
                     alignment: WrapAlignment.center,
                     spacing: 12.0,

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:zoomie_kot/components/pending.dart';
+import 'package:provider/provider.dart';
 
+import 'package:zoomie_kot/screens/pending/pending_screen.dart';
+
+import '../models/provider_model/selection.dart';
 import '/responsive.dart';
 import '../utils/constants.dart';
 import '../extensions.dart';
@@ -14,7 +17,7 @@ class SideMenu extends StatefulWidget {
   SideMenu({
     Key? key,
   }) : super(key: key);
-  static List<Widget> items = [Tables(), TakeAway(), Pending()];
+  static List<Widget> items = [Tables(), TakeAway(), PendingScreen()];
   final username = "aswin.T";
 
   @override
@@ -47,6 +50,9 @@ class _SideMenuState extends State<SideMenu> {
               ),
               SideMenuItem(
                 press: () {
+                  Provider.of<Selection>(context, listen: false).setType =
+                      "Dining";
+
                   setState(() {
                     selectedIndex = 0;
                   });
@@ -57,6 +63,9 @@ class _SideMenuState extends State<SideMenu> {
               ),
               SideMenuItem(
                 press: () {
+                  Provider.of<Selection>(context, listen: false).setType =
+                      "Take away";
+
                   setState(() {
                     selectedIndex = 1;
                   });

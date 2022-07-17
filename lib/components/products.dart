@@ -31,6 +31,7 @@ class _ProductsWidgetState extends State<ProductsWidget> {
                 List<Product> products = snapshot.data!;
                 return Expanded(
                   child: SingleChildScrollView(
+                    controller: ScrollController(),
                     child: Padding(
                       padding: const EdgeInsets.all(18.0),
                       child: Wrap(

@@ -34,6 +34,8 @@ class _ProductCardState extends State<ProductCard> {
               // color: Colors.red,
             ),
             title: Text(_product.prodName!),
+            subtitle: Text(
+                'QR.${double.parse(_product.retailPrice!).toStringAsFixed(2)}'),
             trailing: CounterWidget(getCount: (count) {
               productList.add(_product, count);
             }),

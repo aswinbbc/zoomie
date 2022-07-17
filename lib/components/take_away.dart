@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
+import '../models/provider_model/selection.dart';
 import '../utils/constants.dart';
 
 class TakeAway extends StatelessWidget {
@@ -32,7 +34,10 @@ class TakeAway extends StatelessWidget {
             children: [
               Expanded(
                 child: TextField(
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    Provider.of<Selection>(context, listen: false).setCarNo =
+                        value;
+                  },
                   decoration: const InputDecoration(
                     hintText: "Car No:",
                     fillColor: kBgLightColor,
@@ -50,7 +55,10 @@ class TakeAway extends StatelessWidget {
             children: [
               Expanded(
                 child: TextField(
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    Provider.of<Selection>(context, listen: false)
+                        .setContactNo = value;
+                  },
                   decoration: const InputDecoration(
                     hintText: "Contact No:",
                     fillColor: kBgLightColor,
@@ -68,7 +76,10 @@ class TakeAway extends StatelessWidget {
             children: [
               Expanded(
                 child: TextField(
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    Provider.of<Selection>(context, listen: false)
+                        .setContactName = value;
+                  },
                   decoration: const InputDecoration(
                     hintText: "Contact Name:",
                     fillColor: kBgLightColor,

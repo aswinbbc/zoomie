@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:websafe_svg/websafe_svg.dart';
+import 'package:zoomie_kot/screens/pending/components/pending_list.dart';
 
-import '../utils/constants.dart';
+import '../../utils/constants.dart';
 
-class Pending extends StatelessWidget {
-  const Pending({Key? key}) : super(key: key);
+class PendingScreen extends StatelessWidget {
+  const PendingScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +27,7 @@ class Pending extends StatelessWidget {
           ],
         ),
         const SizedBox(height: kDefaultPadding / 2),
+        // Expanded(child: PendingList()),
       ],
     );
   }

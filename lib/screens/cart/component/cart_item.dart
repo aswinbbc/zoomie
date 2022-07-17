@@ -11,10 +11,15 @@ class CartProductCard extends StatefulWidget {
       {Key? key,
       required this.product,
       required this.index,
-      required this.count})
+      required this.count,
+      required this.onRemove,
+      required this.onCountChange})
       : super(key: key);
   final Product product;
   final int index, count;
+  final VoidCallback onRemove;
+  final Function(int) onCountChange;
+
   @override
   State<CartProductCard> createState() => _CartProductCardState();
 }
@@ -32,27 +37,21 @@ class _CartProductCardState extends State<CartProductCard> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Card(
-        child:
-            Consumer<ProductsListModel>(builder: (context, productList, child) {
-          return ListTile(
-            leading: const Image(
-              image: NetworkImage(
-                  "https://cdn-icons-png.flaticon.com/512/2927/2927347.png"),
-              // color: Colors.red,
-            ),
-            title: Text(_product.prodName!),
-            trailing: CounterWidget(
-              defaultCount: widget.count,
-              getCount: (count) {
-                productList.edit(widget.index, _product, count);
-              },
-              onRemove: () {
-                productList
-                    .delete(productList.productList.elementAt(widget.index));
-              },
-            ),
-          );
-        }),
+        child: ListTile(
+          // leading: const Image(
+          //   image: NetworkImage(
+          //       "https://cdn-icons-png.flaticon.com/512/2927/2927347.png"),
+          //   // color: Colors.red,
+          // ),
+          title: Text(_product.prodName!),
+          subtitle: Text(
+              '${double.parse(_product.retailPrice!)} x ${widget.count} = ${double.parse(_product.retailPrice!) * widget.count}'),
+          trailing: CounterWidget(
+            defaultCount: widget.count,
+            getCount: widget.onCountChange,
+            onRemove: widget.onRemove,
+          ),
+        ),
       ).addNeumorphism(),
     );
   }

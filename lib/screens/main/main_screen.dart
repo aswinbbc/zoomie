@@ -26,7 +26,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final List<Widget> _widgets = [const SelectionScreen(), const CartScreen()];
+  final List<Widget> _widgets = [const SelectionScreen(), CartScreen()];
   int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
