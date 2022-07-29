@@ -7,6 +7,7 @@ import 'package:zoomie_kot/extensions.dart';
 import 'package:zoomie_kot/models/all_lists.dart';
 import 'package:zoomie_kot/models/provider_model/id_model.dart';
 import 'package:zoomie_kot/models/provider_model/product_list.dart';
+import 'package:zoomie_kot/models/provider_model/selection.dart';
 import 'package:zoomie_kot/screens/cart/cart_screen.dart';
 import 'package:zoomie_kot/screens/selection/selection_screen.dart';
 import '../../components/sub_category_chips.dart';
@@ -42,13 +43,14 @@ class _MainScreenState extends State<MainScreen> {
       body: Responsive(
         // Let's work on our mobile part
         mobile: Stack(children: [
-          _widgets.elementAt(selectedIndex),
+          Padding(
+            padding: const EdgeInsets.only(top: 35.0),
+            child: _widgets.elementAt(selectedIndex),
+          ),
           if (!Responsive.isDesktop(context))
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: FloatingActionButton(
-                // elevation: 0.05,
-                // backgroundColor:   Colors.transparent,
                 child: const Icon(Icons.menu),
                 onPressed: () {
                   _scaffoldKey.currentState!.openDrawer();
@@ -57,33 +59,46 @@ class _MainScreenState extends State<MainScreen> {
             ),
           Align(
             alignment: Alignment.topRight,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: FloatingActionButton(
-                      child: const Icon(FontAwesomeIcons.cartShopping),
-                      onPressed: () {
-                        setState(() {
-                          selectedIndex = selectedIndex == 0 ? 1 : 0;
-                        });
-                      },
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: FloatingActionButton(
+                    child: const Icon(FontAwesomeIcons.cartShopping),
+                    onPressed: () {
+                      setState(() {
+                        selectedIndex = selectedIndex == 0 ? 1 : 0;
+                      });
+                    },
+                  ),
+                ),
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  child: Consumer<ProductsListModel>(
+                    builder: (context, value, child) => Chip(
+                      label: Text(value.count.toString()),
                     ),
                   ),
-                  Positioned(
-                    top: 0,
-                    right: 0,
-                    child: Consumer<ProductsListModel>(
-                      builder: (context, value, child) => Chip(
-                        label: Text(value.count.toString()),
-                      ),
-                    ),
-                  )
-                ],
-              ),
+                ),
+              ],
             ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 68.0),
+            child: Consumer<Selection>(builder: (context, selection, _) {
+              return Card(
+                child: ListTile(
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                          '${selection.type} # ${selection.type == 'Dining' ? 'Table : ' + selection.table : 'Car No : ' + selection.carNo}'),
+                    ],
+                  ),
+                ),
+              );
+            }),
           ),
         ]),
         tablet: Row(
@@ -108,9 +123,43 @@ class _MainScreenState extends State<MainScreen> {
                 ],
               ),
             ),
-            const Expanded(
+            Expanded(
               flex: 4,
-              child: ProductsWidget(),
+              child: Stack(
+                children: [
+                  selectedIndex == 0 ? ProductsWidget() : CartScreen(),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: FloatingActionButton(
+                              child: const Icon(FontAwesomeIcons.cartShopping),
+                              onPressed: () {
+                                setState(() {
+                                  selectedIndex = selectedIndex == 0 ? 1 : 0;
+                                });
+                              },
+                            ),
+                          ),
+                          Positioned(
+                            top: 0,
+                            right: 0,
+                            child: Consumer<ProductsListModel>(
+                              builder: (context, value, child) => Chip(
+                                label: Text(value.count.toString()),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             // Expanded(
             //   flex: 5,

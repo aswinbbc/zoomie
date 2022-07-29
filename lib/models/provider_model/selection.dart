@@ -26,7 +26,6 @@ class Selection extends ChangeNotifier {
 
   set setTable(String table) {
     _table = table;
-    // print(_table);
     notifyListeners();
   }
 

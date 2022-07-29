@@ -14,15 +14,9 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'take_away.dart';
 
 class SideMenu extends StatefulWidget {
-  SideMenu({
+  const SideMenu({
     Key? key,
   }) : super(key: key);
-  static List<Widget> items = [
-    Tables(),
-    const TakeAway(),
-    const PendingScreen()
-  ];
-  final username = "aswin.T";
 
   @override
   State<SideMenu> createState() => _SideMenuState();
@@ -30,6 +24,12 @@ class SideMenu extends StatefulWidget {
 
 class _SideMenuState extends State<SideMenu> {
   var selectedIndex = 0;
+  final username = "aswin.T";
+  static List<Widget> items = [
+    Tables(),
+    const TakeAway(),
+    const PendingScreen()
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class _SideMenuState extends State<SideMenu> {
               Card(
                 color: kBgLightColor,
                 child: ListTile(
-                  title: Text("name : ${widget.username}"),
+                  title: Text("name : ${username}"),
                   trailing: Wrap(children: [
                     if (!Responsive.isDesktop(context)) CloseButton(),
                   ]),
@@ -89,7 +89,7 @@ class _SideMenuState extends State<SideMenu> {
                 isActive: selectedIndex == 2,
               ),
               SizedBox(height: kDefaultPadding * 2),
-              SideMenu.items[selectedIndex],
+              items[selectedIndex],
             ],
           ),
         ),

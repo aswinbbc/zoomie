@@ -27,7 +27,7 @@ class PendingScreen extends StatelessWidget {
           ],
         ),
         const SizedBox(height: kDefaultPadding / 2),
-        // Expanded(child: PendingList()),
+        PendingList(),
       ],
     );
   }
