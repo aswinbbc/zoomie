@@ -1,8 +1,11 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:zoomie_kot/models/pending_details.dart';
 import 'package:zoomie_kot/models/pending_item.dart';
 import 'package:zoomie_kot/utils/network_service.dart';
 import 'package:intl/intl.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 Future<String> writeKOTMaster(
     String type,
@@ -29,12 +32,13 @@ writeKOTMasterDetails(
   String productId,
   String quantity,
   String price,
+  String rowId,
 ) async {
-  final result = await getData(
-      "KOT/WriteKOTDetails?kotEntryId=$kotEntryId&serialNo=$serialNo&productId=$productId&uom=PCS&qty=$quantity&price=$price&narration=test",
+  final List result = await getData(
+      "KOT/WriteKOTDetails?kotEntryId=$kotEntryId&serialNo=$serialNo&productId=$productId&uom=PCS&qty=$quantity&price=$price&narration=test&details_row_id=$rowId",
       post: false);
-  // print(result);
-  return result.toString();
+  print(result);
+  return result.first.toString();
 }
 
 Future<List<PendingItem>> getPendingKOTMaster() async {
@@ -42,4 +46,24 @@ Future<List<PendingItem>> getPendingKOTMaster() async {
       await getData("KOT/GetPendingKOTMaster?branch_id=1", post: false);
 
   return result.map((json) => PendingItem.fromJson(json)).toList();
+}
+
+Future<List<PendingItemModel>> getPendingKOTMasterDetails(
+    String kotMasterId) async {
+  final List result = await getData(
+      "KOT/GetPendingKOTDetails?branch_id=1&kot_master_id=$kotMasterId",
+      post: false);
+
+  return result.map((json) => PendingItemModel.fromJson(json)).toList();
+}
+
+showMessage(String msg) {
+  Fluttertoast.showToast(
+      msg: msg,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 16.0);
 }

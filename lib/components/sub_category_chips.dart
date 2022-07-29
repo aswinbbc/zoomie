@@ -28,7 +28,7 @@ class _SubCategoryChipsState extends State<SubCategoryChips> {
             future: getSubCategory(categoryModel.getCategoryId),
             builder: (context, AsyncSnapshot<List<SubCategory>> snapshot) {
               if (snapshot.hasData) {
-                List<SubCategory> categories = snapshot.data!;
+                List<SubCategory> SubCategories = snapshot.data!;
                 return Expanded(
                   child: SingleChildScrollView(
                     controller: ScrollController(),
@@ -36,7 +36,7 @@ class _SubCategoryChipsState extends State<SubCategoryChips> {
                       alignment: WrapAlignment.center,
                       spacing: 12.0,
                       children: List<Widget>.generate(
-                        categories.length,
+                        SubCategories.length,
                         (int index) {
                           return Padding(
                             padding: EdgeInsets.only(top: 20),
@@ -52,7 +52,8 @@ class _SubCategoryChipsState extends State<SubCategoryChips> {
                               label: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  categories.elementAt(index).subCategoryName!,
+                                  SubCategories.elementAt(index)
+                                      .subCategoryName!,
                                   style: TextStyle(
                                     fontSize: 20.0,
                                   ),
@@ -60,16 +61,15 @@ class _SubCategoryChipsState extends State<SubCategoryChips> {
                               ),
                               selected: _value == index,
                               onSelected: (bool selected) {
-                                print("sub c :" +
-                                    categories
-                                        .elementAt(index)
-                                        .categId
-                                        .toString());
+                                // print("sub c :" +
+                                //     categories
+                                //         .elementAt(index)
+                                //         .categId
+                                //         .toString());
                                 Provider.of<IdModel>(context, listen: false)
                                         .setSubCategoryId =
-                                    categories
-                                        .elementAt(index)
-                                        .categId
+                                    SubCategories.elementAt(index)
+                                        .idForDisplay
                                         .toString();
                                 setState(() {
                                   _value = selected ? index : -1;

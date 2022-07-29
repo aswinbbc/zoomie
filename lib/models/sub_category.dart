@@ -19,7 +19,7 @@ class SubCategory {
     subCategoryName = json['sub_category_name'];
     categId = int.parse(json['Categ_id'].toString());
     itemImage = json['item_image'];
-    print(itemImage);
+    // print(itemImage);
   }
 
   Map<String, dynamic> toJson() {

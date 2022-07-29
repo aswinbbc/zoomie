@@ -34,7 +34,7 @@ class ProductsListModel with ChangeNotifier {
 
   deleteById(int index) {
     _lst.removeAt(index);
-    print(index);
+    // print(index);
     notifyListeners();
   }
 }

@@ -5,21 +5,28 @@ class Selection extends ChangeNotifier {
       _table = "0",
       _carNo = "",
       _contactNo = "",
-      _contactName = "";
+      _contactName = "",
+      _kotEntryId = "";
   String get type => _type;
   String get table => _table;
   String get carNo => _carNo;
   String get contactNo => _contactNo;
   String get contactName => _contactName;
+  String get kotEntryId => _kotEntryId;
 
   set setType(String type) {
     _type = type;
     notifyListeners();
   }
 
+  set setKOTEntryId(String id) {
+    _kotEntryId = id;
+    notifyListeners();
+  }
+
   set setTable(String table) {
     _table = table;
-    print(_table);
+    // print(_table);
     notifyListeners();
   }
 

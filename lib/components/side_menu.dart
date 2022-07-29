@@ -17,7 +17,11 @@ class SideMenu extends StatefulWidget {
   SideMenu({
     Key? key,
   }) : super(key: key);
-  static List<Widget> items = [Tables(), TakeAway(), PendingScreen()];
+  static List<Widget> items = [
+    Tables(),
+    const TakeAway(),
+    const PendingScreen()
+  ];
   final username = "aswin.T";
 
   @override

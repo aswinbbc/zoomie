@@ -6,6 +6,7 @@ import 'package:zoomie_kot/widget/product_card.dart';
 
 import '../models/all_lists.dart';
 import '../models/provider_model/id_model.dart';
+import '../models/provider_model/product_list.dart';
 import '../models/sub_category.dart';
 import '../utils/constants.dart';
 
@@ -40,8 +41,24 @@ class _ProductsWidgetState extends State<ProductsWidget> {
                         children: List<Widget>.generate(
                           products.length,
                           (int index) {
-                            return ProductCard(
-                                product: products.elementAt(index));
+                            Product _product = products.elementAt(index);
+                            // print(_product.prodName);
+                            return ListTile(
+                              leading: const Image(
+                                image: NetworkImage(
+                                    "https://cdn-icons-png.flaticon.com/512/2927/2927347.png"),
+                                // color: Colors.red,
+                              ),
+                              title: Text(_product.prodName!),
+                              subtitle: Text(
+                                  'QR.${double.parse(_product.retailPrice!).toStringAsFixed(2)}'),
+                              trailing: CounterWidget(getCount: (count) {
+                                // productList.add(_product, count);
+                                Provider.of<ProductsListModel>(context,
+                                        listen: false)
+                                    .add(_product, count);
+                              }),
+                            );
                           },
                         ).toList(),
                       ),
@@ -49,7 +66,7 @@ class _ProductsWidgetState extends State<ProductsWidget> {
                   ),
                 );
               } else {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               }
             },
           ),
