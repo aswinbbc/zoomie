@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zoomie_kot/components/actions.dart';
 import 'package:zoomie_kot/models/pending_item.dart';
+import 'package:zoomie_kot/models/provider_model/product_list.dart';
 
 import '../../../models/provider_model/selection.dart';
+import '../../../utils/actions.dart';
 
 class PendingList extends StatelessWidget {
   const PendingList({Key? key}) : super(key: key);
@@ -31,6 +33,11 @@ class PendingList extends StatelessWidget {
                         pendingItem.tableId!;
                     Provider.of<Selection>(context, listen: false)
                         .setKOTEntryId = pendingItem.billNo!;
+                    getPendingKOTMasterDetails(pendingItem.salesId!)
+                        .then((value) {
+                      Provider.of<ProductsListModel>(context, listen: false)
+                          .addPendings(value);
+                    });
                   },
                   child: isDining
                       ? Card(

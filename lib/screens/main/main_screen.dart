@@ -1,25 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:websafe_svg/websafe_svg.dart';
 import 'package:zoomie_kot/components/products.dart';
-import 'package:zoomie_kot/extensions.dart';
-import 'package:zoomie_kot/models/all_lists.dart';
-import 'package:zoomie_kot/models/provider_model/id_model.dart';
 import 'package:zoomie_kot/models/provider_model/product_list.dart';
 import 'package:zoomie_kot/models/provider_model/selection.dart';
 import 'package:zoomie_kot/screens/cart/cart_screen.dart';
 import 'package:zoomie_kot/screens/selection/selection_screen.dart';
 import '../../components/sub_category_chips.dart';
-import '../../utils/constants.dart';
 import '/components/side_menu.dart';
 import '/responsive.dart';
-import '/screens/sample/email_screen.dart';
 import '../../components/category_chips.dart';
-import 'components/list_of_emails.dart';
 
 class MainScreen extends StatefulWidget {
-  MainScreen({Key? key}) : super(key: key);
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -27,7 +20,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final List<Widget> _widgets = [const SelectionScreen(), CartScreen()];
+  final List<Widget> _widgets = [const SelectionScreen(), const CartScreen()];
   int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -38,7 +31,7 @@ class _MainScreenState extends State<MainScreen> {
       key: _scaffoldKey,
       drawer: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 250),
-        child: SideMenu(),
+        child: const SideMenu(),
       ),
       body: Responsive(
         // Let's work on our mobile part
@@ -85,7 +78,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 68.0),
+            padding: const EdgeInsets.symmetric(horizontal: 68.0),
             child: Consumer<Selection>(builder: (context, selection, _) {
               return Card(
                 child: ListTile(
@@ -108,9 +101,9 @@ class _MainScreenState extends State<MainScreen> {
               child: Stack(
                 children: [
                   Column(
-                    children: [
-                      const Expanded(child: CategoryChips()),
-                      const Expanded(child: SubCategoryChips()),
+                    children: const [
+                      Expanded(child: CategoryChips()),
+                      Expanded(child: SubCategoryChips()),
                     ],
                   ),
                   if (!Responsive.isDesktop(context))
@@ -127,7 +120,9 @@ class _MainScreenState extends State<MainScreen> {
               flex: 4,
               child: Stack(
                 children: [
-                  selectedIndex == 0 ? ProductsWidget() : CartScreen(),
+                  selectedIndex == 0
+                      ? const ProductsWidget()
+                      : const CartScreen(),
                   Align(
                     alignment: Alignment.topRight,
                     child: Padding(
@@ -173,7 +168,7 @@ class _MainScreenState extends State<MainScreen> {
             // Now there is no error if our width is less then 1340
             Expanded(
               flex: _size.width > 1340 ? 2 : 5,
-              child: SideMenu(),
+              child: const SideMenu(),
             ),
             Expanded(
               flex: _size.width > 1340 ? 3 : 6,

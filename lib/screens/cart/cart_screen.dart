@@ -27,32 +27,36 @@ class CartScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       color: Colors.black),
                 ),
-                ListView.builder(
-                  key: UniqueKey(),
-                  shrinkWrap: true,
-                  itemCount: productList.count,
-                  itemBuilder: (context, index) {
-                    return Consumer<ProductsListModel>(
-                        builder: (context, productList, child) {
-                      return CartProductCard(
-                          onCountChange: ((count) {
-                            productList.edit(
-                                index,
-                                productList.productList
-                                    .elementAt(index)
-                                    .product,
-                                count);
-                          }),
-                          onRemove: () {
-                            productList.deleteById(index);
-                          },
-                          count:
-                              productList.productList.elementAt(index).quantity,
-                          index: index,
-                          product:
-                              productList.productList.elementAt(index).product);
-                    });
-                  },
+                Expanded(
+                  child: ListView.builder(
+                    key: UniqueKey(),
+                    shrinkWrap: true,
+                    itemCount: productList.count,
+                    itemBuilder: (context, index) {
+                      return Consumer<ProductsListModel>(
+                          builder: (context, productList, child) {
+                        return CartProductCard(
+                            onCountChange: ((count) {
+                              productList.edit(
+                                  index,
+                                  productList.productList
+                                      .elementAt(index)
+                                      .product,
+                                  count);
+                            }),
+                            onRemove: () {
+                              productList.deleteById(index);
+                            },
+                            count: productList.productList
+                                .elementAt(index)
+                                .quantity,
+                            index: index,
+                            product: productList.productList
+                                .elementAt(index)
+                                .product);
+                      });
+                    },
+                  ),
                 ),
               ],
             ),

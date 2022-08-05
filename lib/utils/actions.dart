@@ -41,12 +41,12 @@ writeKOTMasterDetails(
   return result.first.toString();
 }
 
-Future<List<PendingItem>> getPendingKOTMaster() async {
-  final List result =
-      await getData("KOT/GetPendingKOTMaster?branch_id=1", post: false);
+// Future<List<PendingItem>> getPendingKOTMaster() async {
+//   final List result =
+//       await getData("KOT/GetPendingKOTMaster?branch_id=1", post: false);
 
-  return result.map((json) => PendingItem.fromJson(json)).toList();
-}
+//   return result.map((json) => PendingItem.fromJson(json)).toList();
+// }
 
 Future<List<PendingItemModel>> getPendingKOTMasterDetails(
     String kotMasterId) async {

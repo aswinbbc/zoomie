@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zoomie_kot/models/pending_details.dart';
 
 import '../product.dart';
 
@@ -26,15 +27,27 @@ class ProductsListModel with ChangeNotifier {
   }
 
   delete(CartItem item) {
-    // _lst.removeWhere(((CartItem element) => (element.product == item.product &&
-    //     element.quantity == item.quantity)));
     _lst.remove(item);
     notifyListeners();
   }
 
   deleteById(int index) {
     _lst.removeAt(index);
-    // print(index);
+    notifyListeners();
+  }
+
+  addPendings(List<PendingItemModel> list) {
+    var items = list.map((pendingItem) {
+      Product product = Product(
+        prodId: pendingItem.productId,
+        prodName: pendingItem.prodName,
+        retailPrice: pendingItem.price!,
+      );
+      int quantity = double.parse(pendingItem.qty!).toInt();
+      return CartItem(product, quantity, rowId: pendingItem.rowId!);
+    });
+
+    _lst.addAll(items);
     notifyListeners();
   }
 }
@@ -42,5 +55,6 @@ class ProductsListModel with ChangeNotifier {
 class CartItem {
   Product product;
   int quantity;
-  CartItem(this.product, this.quantity);
+  String rowId;
+  CartItem(this.product, this.quantity, {this.rowId = "0"});
 }
