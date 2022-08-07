@@ -91,7 +91,8 @@ class CartScreen extends StatelessWidget {
                                     "1",
                                     element.product.prodId.toString(),
                                     element.quantity.toString(),
-                                    element.product.retailPrice.toString());
+                                    element.product.retailPrice.toString(),
+                                    element.rowId);
                                 // print(result);
                               } finally {
                                 productList.deleteById(

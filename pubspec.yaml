@@ -45,6 +45,7 @@ dependencies:
   provider: ^6.0.3
   font_awesome_flutter: ^10.1.0
   intl: ^0.17.0
+  esc_pos_printer: ^4.1.0
 
 dev_dependencies:
   flutter_test:

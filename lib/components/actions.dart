@@ -29,9 +29,10 @@ writeKOTMasterDetails(
   String productId,
   String quantity,
   String price,
+  String rowId,
 ) async {
   final result = await getData(
-      "KOT/WriteKOTDetails?kotEntryId=$kotEntryId&serialNo=$serialNo&productId=$productId&uom=PCS&qty=$quantity&price=$price&narration=test",
+      "KOT/WriteKOTDetails?kotEntryId=$kotEntryId&serialNo=$serialNo&productId=$productId&uom=PCS&qty=$quantity&price=$price&narration=test&details_row_id=$rowId",
       post: false);
   // print(result);
   return result.toString();

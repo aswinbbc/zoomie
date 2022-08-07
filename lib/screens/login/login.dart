@@ -52,9 +52,9 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
         r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
 
     bool isValid = true;
-    if (email.isEmpty || !emailExp.hasMatch(email)) {
+    if (email.isEmpty) {
       setState(() {
-        emailError = "Email is invalid";
+        emailError = "Username is invalid";
       });
       isValid = false;
     }
@@ -133,7 +133,7 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
             email = value;
           });
         },
-        labelText: "Email",
+        labelText: "Username",
         errorText: emailError,
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.next,
