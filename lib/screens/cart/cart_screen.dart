@@ -7,6 +7,7 @@ import 'package:zoomie_kot/models/product.dart';
 import 'package:zoomie_kot/models/provider_model/product_list.dart';
 import 'package:zoomie_kot/models/provider_model/selection.dart';
 import 'package:zoomie_kot/screens/cart/component/cart_item.dart';
+import 'package:zoomie_kot/utils/print_fn.dart';
 
 class CartScreen extends StatelessWidget {
   CartScreen({Key? key}) : super(key: key);
@@ -174,44 +175,42 @@ class CartScreen extends StatelessWidget {
                     trailing: ElevatedButton(
                         child: const Text("Submit"),
                         onPressed: () async {
-                          final selectedAddress = address ??
-                              (await FlutterBluetoothPrinter.selectDevice(
-                                      context))
-                                  ?.address;
+                          // final selectedAddress = address ??
+                          //     (await FlutterBluetoothPrinter.selectDevice(
+                          //             context))
+                          //         ?.address;
 
-                          if (selectedAddress != null) {
-                            controller?.print(address: selectedAddress);
-                          }
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //       builder: (context) => const ReceiptPage(),
-                          //     ));
-                          writeKOTMaster(
-                                  selection.type,
-                                  selection.carNo,
-                                  selection.contactNo,
-                                  selection.contactName,
-                                  "1",
-                                  productList.total.toString(),
-                                  selection.table)
-                              .then((value) {
-                            productList.productList.forEach((element) async {
-                              try {
-                                final result = await writeKOTMasterDetails(
-                                    value,
-                                    "1",
-                                    element.product.prodId.toString(),
-                                    element.quantity.toString(),
-                                    element.product.retailPrice.toString(),
-                                    element.rowId);
-                                // print(result);
-                              } finally {
-                                productList.deleteById(
-                                    productList.productList.indexOf(element));
-                              }
-                            });
-                          });
+                          // if (selectedAddress != null) {
+                          //   controller?.print(address: selectedAddress);
+                          // }
+
+                          await printNetwork(
+                              productList.productList, selection);
+                          // writeKOTMaster(
+                          //         selection.type,
+                          //         selection.carNo,
+                          //         selection.contactNo,
+                          //         selection.contactName,
+                          //         "1",
+                          //         productList.total.toString(),
+                          //         selection.table)
+                          //     .then((value) {
+                          //   productList.productList.forEach((element) async {
+                          //     try {
+                          //       final result = await writeKOTMasterDetails(
+                          //           value,
+                          //           "1",
+                          //           element.product.prodId.toString(),
+                          //           element.quantity.toString(),
+                          //           element.product.retailPrice.toString(),
+                          //           element.rowId);
+                          //       // print(result);
+                          //     } finally {
+                          //       productList.deleteById(
+                          //           productList.productList.indexOf(element));
+                          //     }
+                          //   });
+                          // });
                         }),
                   );
                 }),
