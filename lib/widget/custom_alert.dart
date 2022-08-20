@@ -11,7 +11,7 @@ class CustomAlert extends StatelessWidget {
       required this.widget,
       required this.title,
       required this.okClick,
-      this.height = 200.0})
+      this.height = 220.0})
       : super(key: key);
 
   @override

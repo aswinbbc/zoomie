@@ -1,11 +1,14 @@
 import 'dart:convert';
 
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zoomie_kot/models/kitchen.dart';
 import 'package:zoomie_kot/models/pending_details.dart';
 import 'package:zoomie_kot/models/pending_item.dart';
 import 'package:zoomie_kot/utils/network_service.dart';
 import 'package:intl/intl.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 
 Future<String> writeKOTMaster(
     String type,
@@ -41,12 +44,18 @@ writeKOTMasterDetails(
   return result.first.toString();
 }
 
-// Future<List<PendingItem>> getPendingKOTMaster() async {
-//   final List result =
-//       await getData("KOT/GetPendingKOTMaster?branch_id=1", post: false);
+Future<List<PendingItem>> getPendingKOTMaster() async {
+  final List result =
+      await getData("KOT/GetPendingKOTMaster?branch_id=1", post: false);
 
-//   return result.map((json) => PendingItem.fromJson(json)).toList();
-// }
+  return result.map((json) => PendingItem.fromJson(json)).toList();
+}
+
+Future<List<Kitchen>> getAllKitchens() async {
+  final List result = await getData("Kitchen", post: false);
+  // print(result.length);
+  return result.map((json) => Kitchen.fromJson(json)).toList();
+}
 
 Future<List<PendingItemModel>> getPendingKOTMasterDetails(
     String kotMasterId) async {
@@ -57,13 +66,26 @@ Future<List<PendingItemModel>> getPendingKOTMasterDetails(
   return result.map((json) => PendingItemModel.fromJson(json)).toList();
 }
 
+Future<String> getSharedPrefString(String key) async {
+  // Obtain shared preferences.
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getString(key) ?? "no data saved";
+}
+
+Future<bool> setSharedPrefString(String key, String value) async {
+  // Obtain shared preferences.
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.setString(key, value);
+}
+
 showMessage(String msg) {
-  Fluttertoast.showToast(
-      msg: msg,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.CENTER,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.red,
-      textColor: Colors.white,
-      fontSize: 16.0);
+  var cancel = BotToast.showText(text: msg);
+  // Fluttertoast.showToast(
+  //     msg: msg,
+  //     toastLength: Toast.LENGTH_SHORT,
+  //     gravity: ToastGravity.CENTER,
+  //     timeInSecForIosWeb: 1,
+  //     backgroundColor: Colors.red,
+  //     textColor: Colors.white,
+  //     fontSize: 16.0);
 }

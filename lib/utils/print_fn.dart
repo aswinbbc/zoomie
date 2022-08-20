@@ -18,7 +18,7 @@ void testReceipt(
     PosColumn(
       text: 'product',
       width: 9,
-      styles: PosStyles(
+      styles: const PosStyles(
         align: PosAlign.left,
         underline: true,
         bold: true,
@@ -29,7 +29,7 @@ void testReceipt(
     PosColumn(
       text: 'Qty',
       width: 3,
-      styles: PosStyles(
+      styles: const PosStyles(
         bold: true,
         align: PosAlign.right,
         underline: true,
@@ -55,7 +55,7 @@ void testReceipt(
       PosColumn(
         text: cartItem.quantity.toString(),
         width: 2,
-        styles: PosStyles(
+        styles: const PosStyles(
           align: PosAlign.right,
           underline: true,
           width: PosTextSize.size2,
@@ -68,7 +68,7 @@ void testReceipt(
     PosColumn(
       text: 'user:',
       width: 4,
-      styles: PosStyles(
+      styles: const PosStyles(
         align: PosAlign.left,
         underline: true,
         bold: true,
@@ -79,7 +79,7 @@ void testReceipt(
     PosColumn(
       text: 'aswin',
       width: 8,
-      styles: PosStyles(
+      styles: const PosStyles(
         bold: true,
         align: PosAlign.left,
         underline: true,
@@ -92,7 +92,7 @@ void testReceipt(
     PosColumn(
       text: 'table:',
       width: 4,
-      styles: PosStyles(
+      styles: const PosStyles(
         align: PosAlign.left,
         underline: true,
         bold: true,
@@ -103,7 +103,7 @@ void testReceipt(
     PosColumn(
       text: selection.table,
       width: 8,
-      styles: PosStyles(
+      styles: const PosStyles(
         bold: true,
         align: PosAlign.left,
         underline: true,
@@ -116,7 +116,7 @@ void testReceipt(
     PosColumn(
       text: 'date time:',
       width: 3,
-      styles: PosStyles(
+      styles: const PosStyles(
         align: PosAlign.left,
         underline: true,
         bold: true,
@@ -125,7 +125,7 @@ void testReceipt(
     PosColumn(
       text: '$cdate $ctime',
       width: 9,
-      styles: PosStyles(
+      styles: const PosStyles(
         bold: true,
         align: PosAlign.left,
         underline: true,
@@ -184,7 +184,7 @@ void testp(NetworkPrinter printer) {
     PosColumn(
       text: 'product',
       width: 9,
-      styles: PosStyles(
+      styles: const PosStyles(
         align: PosAlign.left,
         underline: true,
         height: PosTextSize.size2,
@@ -194,7 +194,7 @@ void testp(NetworkPrinter printer) {
     PosColumn(
       text: 'Quantity',
       width: 3,
-      styles: PosStyles(
+      styles: const PosStyles(
         align: PosAlign.left,
         underline: true,
         height: PosTextSize.size2,
@@ -207,12 +207,12 @@ void testp(NetworkPrinter printer) {
   printer.cut();
 }
 
-printNetwork(List<CartItem> productList, selection) async {
+printNetwork(List<CartItem> productList, selection, String printerIp) async {
   const PaperSize paper = PaperSize.mm80;
   final profile = await CapabilityProfile.load();
   final printer = NetworkPrinter(paper, profile);
 
-  final PosPrintResult res = await printer.connect('192.168.0.100', port: 9100);
+  final PosPrintResult res = await printer.connect(printerIp, port: 9100);
 
   if (res == PosPrintResult.success) {
     testReceipt(printer, productList, selection);

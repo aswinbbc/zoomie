@@ -16,6 +16,12 @@ class ProductsListModel with ChangeNotifier {
     return _total;
   }
 
+  List<CartItem> getProductsByKitchen(String kitchenId) {
+    return _lst
+        .where((element) => element.product.kitchenId == kitchenId)
+        .toList();
+  }
+
   add(Product product, int quantity) {
     _lst.add(CartItem(product, quantity));
     notifyListeners();

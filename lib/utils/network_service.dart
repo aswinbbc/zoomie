@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
@@ -10,16 +11,24 @@ const Map<String, dynamic> temp = {};
 Future getData(String url,
     {Map<String, dynamic> params = temp, post = true}) async {
   final http.Response result;
+  if (kDebugMode) {
+    print("${await Constants.BASE_URL}$url");
+  }
   if (post) {
-    result = await http.post(Uri.parse("${Constants.BASE_URL}$url"),
+    result = await http.post(Uri.parse("${await Constants.BASE_URL}$url"),
         body: params); //https://hosted_url.com/login_api
   } else {
-    result = await http.get(Uri.parse("${Constants.BASE_URL}$url"));
+    result = await http.get(Uri.parse("${await Constants.BASE_URL}$url"));
   }
-
+  if (kDebugMode) {
+    print(result.statusCode);
+  }
   if (result.statusCode == 200) {
     final data = result.body;
-    // print(data);
+
+    if (kDebugMode) {
+      print(data);
+    }
     return jsonDecode(data);
   }
 }

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path/path.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zoomie_kot/screens/main/main_screen.dart';
+import 'package:zoomie_kot/screens/settings/printers.dart';
 import 'package:zoomie_kot/utils/constant.dart';
-
-import '../../utils/network_service.dart';
 
 import '/widget/form_button.dart';
 import '/widget/input_field.dart';
@@ -81,6 +79,15 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PrinterSettings(),
+                ));
+          },
+          child: const Icon(Icons.settings)),
       resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),

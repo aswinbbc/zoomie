@@ -2,19 +2,42 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_printer/flutter_bluetooth_printer.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:zoomie_kot/components/actions.dart';
+
 import 'package:zoomie_kot/models/product.dart';
 import 'package:zoomie_kot/models/provider_model/product_list.dart';
 import 'package:zoomie_kot/models/provider_model/selection.dart';
 import 'package:zoomie_kot/screens/cart/component/cart_item.dart';
+import 'package:zoomie_kot/utils/actions.dart';
 import 'package:zoomie_kot/utils/print_fn.dart';
 
-class CartScreen extends StatelessWidget {
-  CartScreen({Key? key}) : super(key: key);
+class CartScreen extends StatefulWidget {
+  const CartScreen({Key? key}) : super(key: key);
+
+  @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+  bool isNetwork = true;
+
+  @override
+  void initState() {
+    super.initState();
+    getSharedPrefString("printer_type").then((value) {
+      setState(() {
+        isNetwork = value != "bluetooth";
+      });
+    });
+  }
+
   ReceiptController? controller;
+
   String? address;
+
   String cdate = DateFormat("yyyy-MM-dd").format(DateTime.now());
+
   String ctime = DateFormat("hh:mm:ss a").format(DateTime.now());
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ProductsListModel>(builder: (context, productList, _) {
@@ -175,42 +198,53 @@ class CartScreen extends StatelessWidget {
                     trailing: ElevatedButton(
                         child: const Text("Submit"),
                         onPressed: () async {
-                          // final selectedAddress = address ??
-                          //     (await FlutterBluetoothPrinter.selectDevice(
-                          //             context))
-                          //         ?.address;
+                          if (!isNetwork) {
+                            final selectedAddress =
+                                await getSharedPrefString("bluetooth_name");
 
-                          // if (selectedAddress != null) {
-                          //   controller?.print(address: selectedAddress);
-                          // }
+                            selectedAddress.isNotEmpty
+                                ? controller?.print(address: selectedAddress)
+                                : showMessage("please select printer");
+                          } else {
+                            final kitchens = await getAllKitchens();
+                            kitchens.forEach((kitchen) async {
+                              List<CartItem> products = productList.productList
+                                  .where((element) =>
+                                      element.product.kitchenId ==
+                                      kitchen.pknId)
+                                  .toList();
 
-                          await printNetwork(
-                              productList.productList, selection);
-                          // writeKOTMaster(
-                          //         selection.type,
-                          //         selection.carNo,
-                          //         selection.contactNo,
-                          //         selection.contactName,
-                          //         "1",
-                          //         productList.total.toString(),
-                          //         selection.table)
-                          //     .then((value) {
-                          //   productList.productList.forEach((element) async {
-                          //     try {
-                          //       final result = await writeKOTMasterDetails(
-                          //           value,
-                          //           "1",
-                          //           element.product.prodId.toString(),
-                          //           element.quantity.toString(),
-                          //           element.product.retailPrice.toString(),
-                          //           element.rowId);
-                          //       // print(result);
-                          //     } finally {
-                          //       productList.deleteById(
-                          //           productList.productList.indexOf(element));
-                          //     }
-                          //   });
-                          // });
+                              products.isNotEmpty
+                                  ? await printNetwork(products, selection,
+                                      await getSharedPrefString(kitchen.pknId!))
+                                  : null;
+                            });
+                          }
+                          writeKOTMaster(
+                                  selection.type,
+                                  selection.carNo,
+                                  selection.contactNo,
+                                  selection.contactName,
+                                  "1",
+                                  productList.total.toString(),
+                                  selection.table)
+                              .then((value) {
+                            productList.productList.forEach((element) async {
+                              try {
+                                final result = await writeKOTMasterDetails(
+                                    value,
+                                    "1",
+                                    element.product.prodId.toString(),
+                                    element.quantity.toString(),
+                                    element.product.retailPrice.toString(),
+                                    element.rowId);
+                                // print(result);
+                              } finally {
+                                productList.deleteById(
+                                    productList.productList.indexOf(element));
+                              }
+                            });
+                          });
                         }),
                   );
                 }),

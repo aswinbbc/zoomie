@@ -35,7 +35,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^0.13.4
   dot_navigation_bar: ^1.0.1+3
-  fluttertoast: ^8.0.8
+  # fluttertoast: ^8.0.8
+  bot_toast: ^4.0.3
   image_picker: ^0.8.4+8
   shared_preferences: ^2.0.13
   flutter_rating_bar: ^4.0.0
@@ -47,6 +48,7 @@ dependencies:
   intl: ^0.17.0
   flutter_bluetooth_printer: ^2.3.0
   esc_pos_printer: ^4.1.0
+  flutter_switch: ^0.3.2
 
 dev_dependencies:
   flutter_test:

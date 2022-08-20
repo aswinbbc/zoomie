@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zoomie_kot/models/provider_model/id_model.dart';
@@ -27,10 +28,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      builder: BotToastInit(), //1. call BotToastInit
+      navigatorObservers: [BotToastNavigatorObserver()],
       title: 'Flutter Demo',
       theme: ThemeData(useMaterial3: true),
-      home: MainScreen(),
-      // home: const TestPrint(),
+      // home: MainScreen(),
+      home: const SimpleLoginScreen(),
     );
   }
 }
