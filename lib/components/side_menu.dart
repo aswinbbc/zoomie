@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:zoomie_kot/screens/pending/pending_screen.dart';
+import 'package:zoomie_kot/utils/constant.dart';
 
 import '../models/provider_model/selection.dart';
 import '/responsive.dart';
@@ -24,12 +25,22 @@ class SideMenu extends StatefulWidget {
 
 class _SideMenuState extends State<SideMenu> {
   var selectedIndex = 0;
-  final username = "aswin.T";
+  String username = "";
   static List<Widget> items = [
     Tables(),
     const TakeAway(),
     const PendingScreen()
   ];
+
+  @override
+  void initState() {
+    Constants.userName.then((value) {
+      setState(() {
+        username = value;
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:zoomie_kot/screens/main/main_screen.dart';
 import 'package:zoomie_kot/screens/settings/printers.dart';
+import 'package:zoomie_kot/utils/actions.dart';
 import 'package:zoomie_kot/utils/constant.dart';
+import 'package:zoomie_kot/utils/network_service.dart';
 
 import '/widget/form_button.dart';
 import '/widget/input_field.dart';
@@ -173,23 +175,31 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
   }
 
   login(String? email, String? password, context) {
-    Route route = MaterialPageRoute(builder: (context) => MainScreen());
-    Navigator.pushReplacement(myContext!, route);
-    // getData("login.php", params: {
-    //   "email": email,
-    //   "password": password,
-    // }).then((value) async {
-    //   if (value['status'] as bool) {
-    //     // Obtain shared preferences.
-    //     final prefs = await SharedPreferences.getInstance();
-    //     await prefs.setString('user_id', value['0']['s_register_id']);
-    //     Fluttertoast.showToast(msg: "welcome.");
+    getData("AppUser/CheckUserExist",
+            params: {
+              "UserName": email,
+              "Password": password,
+            },
+            post: false)
+        .then((value) async {
+      try {
+        // print(value.first);
+        if (value.first.containsKey('UserID')) {
+          // Obtain shared preferences.
 
-    //     Route route = MaterialPageRoute(builder: (context) => MainScreen());
-    //     Navigator.pushReplacement(myContext!, route);
-    //   } else {
-    //     Fluttertoast.showToast(msg: "username or password incorrect.");
-    //   }
-    // });
+          await Constants().setUserId(value.first['UserID']);
+          await Constants().setUserName(value.first['UserName']);
+          showMessage("welcome.");
+
+          Route route =
+              MaterialPageRoute(builder: (context) => const MainScreen());
+          Navigator.pushReplacement(myContext!, route);
+        } else {
+          showMessage("username or password incorrect.");
+        }
+      } catch (e) {
+        showMessage("username or password incorrect.");
+      }
+    });
   }
 }

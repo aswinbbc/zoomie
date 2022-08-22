@@ -43,14 +43,22 @@ class _CartProductCardState extends State<CartProductCard> {
           //       "https://cdn-icons-png.flaticon.com/512/2927/2927347.png"),
           //   // color: Colors.red,
           // ),
-          title: Text(_product.prodName!),
+          title: Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            runSpacing: 10,
+            spacing: 20,
+            children: [
+              Text(_product.prodName!),
+              CounterWidget(
+                defaultCount: widget.count,
+                getCount: widget.onCountChange,
+                onRemove: widget.onRemove,
+              ),
+            ],
+          ),
           subtitle: Text(
               '${double.parse(_product.retailPrice!)} x ${widget.count} = ${double.parse(_product.retailPrice!) * widget.count}'),
-          trailing: CounterWidget(
-            defaultCount: widget.count,
-            getCount: widget.onCountChange,
-            onRemove: widget.onRemove,
-          ),
+          // trailing:
         ),
       ).addNeumorphism(),
     );

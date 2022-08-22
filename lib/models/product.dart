@@ -84,6 +84,7 @@ class Product {
   String? prodImage;
   String? kitchenName;
   String? printerName;
+  String narration = "";
 
   Product({
     this.prodId,

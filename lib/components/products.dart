@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zoomie_kot/components/modifier.dart';
 import 'package:zoomie_kot/extensions.dart';
+import 'package:zoomie_kot/models/modifier_model.dart';
 import 'package:zoomie_kot/models/product.dart';
+import 'package:zoomie_kot/utils/actions.dart';
+import 'package:zoomie_kot/widget/custom_alert.dart';
 import 'package:zoomie_kot/widget/product_card.dart';
 
 import '../models/all_lists.dart';
@@ -18,7 +22,8 @@ class ProductsWidget extends StatefulWidget {
 }
 
 class _ProductsWidgetState extends State<ProductsWidget> {
-  int _value = 0;
+  int? _value = 0;
+
   @override
   Widget build(BuildContext context) {
     return Consumer<IdModel>(builder: (context, idModel, child) {
@@ -49,15 +54,36 @@ class _ProductsWidgetState extends State<ProductsWidget> {
                                     "https://cdn-icons-png.flaticon.com/512/2927/2927347.png"),
                                 // color: Colors.red,
                               ),
-                              title: Text(_product.prodName!),
+                              title: Wrap(
+                                alignment: WrapAlignment.spaceBetween,
+                                runSpacing: 10,
+                                spacing: 20,
+                                children: [
+                                  Text(_product.prodName!),
+                                  CounterWidget(getCount: (count) async {
+                                    List<ModifierModel> modifiers =
+                                        await getModifier(_product.prodId!);
+                                    if (modifiers.isEmpty) {
+                                      Provider.of<ProductsListModel>(context,
+                                              listen: false)
+                                          .add(_product, count);
+                                    } else {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => CustomAlert(
+                                            widget: Modifier(
+                                              modifiers: modifiers,
+                                            ),
+                                            title: "Modifier",
+                                            okClick: () {}),
+                                      );
+                                    }
+                                  }),
+                                ],
+                              ),
                               subtitle: Text(
                                   'QR.${double.parse(_product.retailPrice!).toStringAsFixed(2)}'),
-                              trailing: CounterWidget(getCount: (count) {
-                                // productList.add(_product, count);
-                                Provider.of<ProductsListModel>(context,
-                                        listen: false)
-                                    .add(_product, count);
-                              }),
+                              // trailing:
                             );
                           },
                         ).toList(),

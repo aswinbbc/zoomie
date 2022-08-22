@@ -8,6 +8,7 @@ import 'package:zoomie_kot/models/provider_model/product_list.dart';
 import 'package:zoomie_kot/models/provider_model/selection.dart';
 import 'package:zoomie_kot/screens/cart/component/cart_item.dart';
 import 'package:zoomie_kot/utils/actions.dart';
+import 'package:zoomie_kot/utils/constant.dart';
 import 'package:zoomie_kot/utils/print_fn.dart';
 
 class CartScreen extends StatefulWidget {
@@ -225,7 +226,7 @@ class _CartScreenState extends State<CartScreen> {
                                   selection.carNo,
                                   selection.contactNo,
                                   selection.contactName,
-                                  "1",
+                                  await Constants.userId,
                                   productList.total.toString(),
                                   selection.table)
                               .then((value) {

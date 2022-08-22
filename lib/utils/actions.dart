@@ -4,6 +4,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zoomie_kot/models/kitchen.dart';
+import 'package:zoomie_kot/models/modifier_model.dart';
 import 'package:zoomie_kot/models/pending_details.dart';
 import 'package:zoomie_kot/models/pending_item.dart';
 import 'package:zoomie_kot/utils/network_service.dart';
@@ -55,6 +56,14 @@ Future<List<Kitchen>> getAllKitchens() async {
   final List result = await getData("Kitchen", post: false);
   // print(result.length);
   return result.map((json) => Kitchen.fromJson(json)).toList();
+}
+
+Future<List<ModifierModel>> getModifier(String productId) async {
+  final List result = await getData(
+      "Modifier/GetModifierByProdId?productId=$productId",
+      post: false);
+  // print(result.length);
+  return result.map((json) => ModifierModel.fromJson(json)).toList();
 }
 
 Future<List<PendingItemModel>> getPendingKOTMasterDetails(

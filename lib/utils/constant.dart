@@ -34,4 +34,16 @@ class Constants {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('user_name') ?? "no name";
   }
+
+  Future<bool> setUserName(String name) async {
+    // Obtain shared preferences.
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.setString('user_name', name);
+  }
+
+  Future<bool> setUserId(String id) async {
+    // Obtain shared preferences.
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.setString('user_id', id);
+  }
 }
