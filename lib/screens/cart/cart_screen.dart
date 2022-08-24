@@ -62,7 +62,7 @@ class _CartScreenState extends State<CartScreen> {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Center(
+                          const Center(
                             child: Text(
                               'KOT PRINT',
                               style: TextStyle(
@@ -88,7 +88,9 @@ class _CartScreenState extends State<CartScreen> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    item.product.prodName!,
+                                    item.product.prodName! +
+                                        ' ' +
+                                        item.product.narration,
                                   ),
                                 ),
                                 Text(
@@ -238,7 +240,8 @@ class _CartScreenState extends State<CartScreen> {
                                     element.product.prodId.toString(),
                                     element.quantity.toString(),
                                     element.product.retailPrice.toString(),
-                                    element.rowId);
+                                    element.rowId,
+                                    element.product.narration);
                                 // print(result);
                               } finally {
                                 productList.deleteById(

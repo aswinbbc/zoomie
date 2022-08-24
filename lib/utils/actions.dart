@@ -30,16 +30,10 @@ Future<String> writeKOTMaster(
   return result.first['BillID'].toString();
 }
 
-writeKOTMasterDetails(
-  String kotEntryId,
-  String serialNo,
-  String productId,
-  String quantity,
-  String price,
-  String rowId,
-) async {
+writeKOTMasterDetails(String kotEntryId, String serialNo, String productId,
+    String quantity, String price, String rowId, String narration) async {
   final List result = await getData(
-      "KOT/WriteKOTDetails?kotEntryId=$kotEntryId&serialNo=$serialNo&productId=$productId&uom=PCS&qty=$quantity&price=$price&narration=test&details_row_id=$rowId",
+      "KOT/WriteKOTDetails?kotEntryId=$kotEntryId&serialNo=$serialNo&productId=$productId&uom=PCS&qty=$quantity&price=$price&narration=$narration&details_row_id=$rowId",
       post: false);
   print(result);
   return result.first.toString();

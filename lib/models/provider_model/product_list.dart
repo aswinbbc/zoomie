@@ -27,6 +27,11 @@ class ProductsListModel with ChangeNotifier {
     notifyListeners();
   }
 
+  // addNarration(String narration, int index) {
+  //   _lst.elementAt(index).product.narration = narration;
+  //   notifyListeners();
+  // }
+
   edit(int index, Product product, int quantity) {
     _lst[index] = CartItem(product, quantity);
     notifyListeners();

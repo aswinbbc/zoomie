@@ -32,8 +32,8 @@ class MyApp extends StatelessWidget {
       navigatorObservers: [BotToastNavigatorObserver()],
       title: 'Flutter Demo',
       theme: ThemeData(useMaterial3: true),
-      // home: MainScreen(),
-      home: const SimpleLoginScreen(),
+      home: const MainScreen(),
+      // home: const SimpleLoginScreen(),
     );
   }
 }

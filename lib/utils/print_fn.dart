@@ -42,7 +42,7 @@ void testReceipt(
   for (CartItem cartItem in productsList) {
     printer.row([
       PosColumn(
-        text: cartItem.product.prodName!,
+        text: cartItem.product.prodName! + ' ' + cartItem.product.narration,
         width: 10,
         styles: PosStyles(
           align: PosAlign.left,

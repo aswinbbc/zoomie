@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
+
 import 'package:zoomie_kot/extensions.dart';
 
 import '../../../models/product.dart';
-import '../../../models/provider_model/product_list.dart';
 
 class CartProductCard extends StatefulWidget {
   const CartProductCard(
@@ -48,7 +47,7 @@ class _CartProductCardState extends State<CartProductCard> {
             runSpacing: 10,
             spacing: 20,
             children: [
-              Text(_product.prodName!),
+              Text(_product.prodName! + ' ' + _product.narration),
               CounterWidget(
                 defaultCount: widget.count,
                 getCount: widget.onCountChange,

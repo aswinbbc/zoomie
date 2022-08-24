@@ -22,7 +22,7 @@ class ProductsWidget extends StatefulWidget {
 }
 
 class _ProductsWidgetState extends State<ProductsWidget> {
-  int? _value = 0;
+  int _value = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -73,9 +73,20 @@ class _ProductsWidgetState extends State<ProductsWidget> {
                                         builder: (context) => CustomAlert(
                                             widget: Modifier(
                                               modifiers: modifiers,
+                                              onchange: (int value) {
+                                                _value = value;
+                                              },
                                             ),
                                             title: "Modifier",
-                                            okClick: () {}),
+                                            okClick: () {
+                                              _product.narration = modifiers
+                                                  .elementAt(_value)
+                                                  .modifierName!;
+                                              Provider.of<ProductsListModel>(
+                                                      context,
+                                                      listen: false)
+                                                  .add(_product, count);
+                                            }),
                                       );
                                     }
                                   }),
