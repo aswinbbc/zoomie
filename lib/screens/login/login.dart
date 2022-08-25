@@ -175,13 +175,13 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
   }
 
   login(String? email, String? password, context) {
-    getData("AppUser/CheckUserExist",
-            params: {
-              "UserName": email,
-              "Password": password,
-            },
-            post: false)
-        .then((value) async {
+    getData(
+      "AppUser/CheckUserExist",
+      params: {
+        "UserName": email,
+        "Password": password,
+      },
+    ).then((value) async {
       try {
         // print(value.first);
         if (value.first.containsKey('UserID')) {
