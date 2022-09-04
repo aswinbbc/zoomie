@@ -9,6 +9,8 @@ import 'package:zoomie_kot/utils/network_service.dart';
 
 import '/widget/form_button.dart';
 import '/widget/input_field.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class SimpleLoginScreen extends StatefulWidget {
   const SimpleLoginScreen({Key? key}) : super(key: key);
@@ -75,21 +77,84 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
     }
   }
 
+  Widget _buildBody() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          GestureDetector(
+            onTap: () async {
+              await launchUrl(
+                  Uri.parse("https://www.amalgamatetechnologies.com/"));
+            },
+            child: AutoSizeText(
+              'AMALGAMATE TECHNOLOGIES',
+              maxLines: 1,
+              style: TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Divider(color: Colors.black),
+          AutoSizeText.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: 'Innovation at its',
+                ),
+                TextSpan(
+                  text: ' peack',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                // TextSpan(
+                //   text: ' lighting solution',
+                // ),
+              ],
+            ),
+            style: TextStyle(fontSize: 10),
+            maxLines: 1,
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     myContext = context;
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PrinterSettings(),
-                ));
-          },
-          child: const Icon(Icons.settings)),
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.asset(
+            'assets/images/zoomie.png',
+            height: 120,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // SizedBox(height: 1),
+              _buildBody(),
+              FloatingActionButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PrinterSettings(),
+                        ));
+                  },
+                  child: const Icon(Icons.settings)),
+            ],
+          ),
+        ],
+      ),
       resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -98,9 +163,9 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
             return ListView(
               children: [
                 SizedBox(height: screenHeight * .05),
-                Image.network(
-                  'https://c.tenor.com/hE0T8D0GpXsAAAAC/joinblink-blink.gif',
-                  height: 220,
+                Image.asset(
+                  'assets/images/bot.gif',
+                  height: 150,
                 ),
                 ...loginPage(screenHeight),
               ],

@@ -18,12 +18,6 @@ Future getData(String url,
     result = await http.post(Uri.parse("${await Constants.BASE_URL}$url"),
         body: params); //https://hosted_url.com/login_api
   } else {
-    // if (params != {}) {
-    //   url += '?';
-    //   params.forEach((key, value) {
-    //     url += key + '=' + value + '&';
-    //   });
-    // }
     print(url);
     result = await http.get(Uri.parse("${await Constants.BASE_URL}$url"));
   }

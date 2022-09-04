@@ -3,9 +3,10 @@ import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:intl/intl.dart';
 import 'package:zoomie_kot/models/provider_model/product_list.dart';
 import 'package:zoomie_kot/models/provider_model/selection.dart';
+import 'package:zoomie_kot/utils/constant.dart';
 
-void testReceipt(
-    NetworkPrinter printer, List<CartItem> productsList, Selection selection) {
+void testReceipt(NetworkPrinter printer, List<CartItem> productsList,
+    Selection selection, String name) {
   String cdate = DateFormat("yyyy-MM-dd").format(DateTime.now());
   String ctime = DateFormat("hh:mm:ss a").format(DateTime.now());
   printer.text('KOT PRINT',
@@ -40,28 +41,29 @@ void testReceipt(
   ]);
 
   for (CartItem cartItem in productsList) {
-    printer.row([
-      PosColumn(
-        text: cartItem.product.prodName! + ' ' + cartItem.product.narration,
-        width: 10,
-        styles: PosStyles(
-          align: PosAlign.left,
-          underline: true,
-          width: cartItem.product.prodName!.length > 19
-              ? PosTextSize.size1
-              : PosTextSize.size2,
+    if (cartItem.rowId == "0")
+      printer.row([
+        PosColumn(
+          text: cartItem.product.prodName! + ' ' + cartItem.product.narration,
+          width: 10,
+          styles: PosStyles(
+            align: PosAlign.left,
+            underline: true,
+            width: cartItem.product.prodName!.length > 19
+                ? PosTextSize.size1
+                : PosTextSize.size2,
+          ),
         ),
-      ),
-      PosColumn(
-        text: cartItem.quantity.toString(),
-        width: 2,
-        styles: const PosStyles(
-          align: PosAlign.right,
-          underline: true,
-          width: PosTextSize.size2,
+        PosColumn(
+          text: cartItem.quantity.toString(),
+          width: 2,
+          styles: const PosStyles(
+            align: PosAlign.right,
+            underline: true,
+            width: PosTextSize.size2,
+          ),
         ),
-      ),
-    ]);
+      ]);
   }
 
   printer.row([
@@ -77,7 +79,7 @@ void testReceipt(
       ),
     ),
     PosColumn(
-      text: 'aswin',
+      text: name,
       width: 8,
       styles: const PosStyles(
         bold: true,
@@ -210,12 +212,13 @@ void testp(NetworkPrinter printer) {
 printNetwork(List<CartItem> productList, selection, String printerIp) async {
   const PaperSize paper = PaperSize.mm80;
   final profile = await CapabilityProfile.load();
+  final String name = await Constants.userId;
   final printer = NetworkPrinter(paper, profile);
 
   final PosPrintResult res = await printer.connect(printerIp, port: 9100);
 
   if (res == PosPrintResult.success) {
-    testReceipt(printer, productList, selection);
+    testReceipt(printer, productList, selection, name);
 
     printer.disconnect();
   }

@@ -23,7 +23,8 @@ class PendingList extends StatelessWidget {
                 PendingItem pendingItem = snapshot.data!.elementAt(index);
                 final bool isDining = pendingItem.orderType == "Dining";
                 return InkWell(
-                  onTap: () {
+                  onTap: () async {
+                    newOrder(context);
                     Provider.of<Selection>(context, listen: false).setType =
                         pendingItem.orderType!;
                     Provider.of<Selection>(context, listen: false).setCarNo =
@@ -31,12 +32,11 @@ class PendingList extends StatelessWidget {
                     Provider.of<Selection>(context, listen: false).setTable =
                         pendingItem.tableId!;
                     Provider.of<Selection>(context, listen: false)
-                        .setKOTEntryId = pendingItem.billNo!;
-                    getPendingKOTMasterDetails(pendingItem.salesId!)
-                        .then((value) {
-                      Provider.of<ProductsListModel>(context, listen: false)
-                          .addPendings(value);
-                    });
+                        .setKOTEntryId = pendingItem.salesId!;
+                    var value =
+                        await getPendingKOTMasterDetails(pendingItem.salesId!);
+                    Provider.of<ProductsListModel>(context, listen: false)
+                        .addPendings(value);
                   },
                   child: isDining
                       ? Card(
@@ -44,11 +44,13 @@ class PendingList extends StatelessWidget {
                           child: ListTile(
                             leading: const Icon(Icons.dining),
                             title: Text(pendingItem.tableId!),
+                            subtitle: Text("KOT No:" + pendingItem.billNo!),
                           ))
                       : Card(
                           child: ListTile(
                           leading: const Icon(Icons.car_repair),
                           title: Text(pendingItem.carNo!),
+                          subtitle: Text("KOT No:" + pendingItem.billNo!),
                         )),
                 );
               },

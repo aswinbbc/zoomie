@@ -13,6 +13,12 @@ class IdModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  init() {
+    _categoryId = "3";
+    _subCategoryId = "5";
+    notifyListeners();
+  }
+
   set setSubCategoryId(String id) {
     _subCategoryId = id;
     notifyListeners();

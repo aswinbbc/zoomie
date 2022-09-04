@@ -24,10 +24,15 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
-    getSharedPrefString("printer_type").then((value) {
-      setState(() {
-        isNetwork = value != "bluetooth";
-      });
+    init();
+  }
+
+  init() async {
+    var type = await getSharedPrefString("printer_type");
+    var name = await Constants.userName;
+    setState(() {
+      isNetwork = type != "bluetooth";
+      uname = name;
     });
   }
 
@@ -38,6 +43,7 @@ class _CartScreenState extends State<CartScreen> {
   String cdate = DateFormat("yyyy-MM-dd").format(DateTime.now());
 
   String ctime = DateFormat("hh:mm:ss a").format(DateTime.now());
+  late String uname;
 
   @override
   Widget build(BuildContext context) {
@@ -47,12 +53,6 @@ class _CartScreenState extends State<CartScreen> {
         child: Stack(
           children: [
             Visibility(
-              maintainInteractivity: true,
-              // visible: false,
-              maintainSize: true,
-              maintainAnimation: true,
-              maintainSemantics: true,
-              maintainState: true,
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Expanded(
@@ -84,20 +84,21 @@ class _CartScreenState extends State<CartScreen> {
                           ),
                           const Divider(thickness: 4),
                           for (CartItem item in productList.productList)
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    item.product.prodName! +
-                                        ' ' +
-                                        item.product.narration,
+                            if (item.rowId == "0")
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      item.product.prodName! +
+                                          ' ' +
+                                          item.product.narration,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  item.quantity.toString(),
-                                ),
-                              ],
-                            ),
+                                  Text(
+                                    item.quantity.toString(),
+                                  ),
+                                ],
+                              ),
                           const Divider(thickness: 4),
                           Row(
                             children: [
@@ -117,7 +118,7 @@ class _CartScreenState extends State<CartScreen> {
                               ),
                               const SizedBox(width: 8),
                               Text(
-                                cdate,
+                                uname,
                               ),
                             ],
                           ),
@@ -223,32 +224,22 @@ class _CartScreenState extends State<CartScreen> {
                                   : null;
                             });
                           }
-                          writeKOTMaster(
-                                  selection.type,
-                                  selection.carNo,
-                                  selection.contactNo,
-                                  selection.contactName,
-                                  await Constants.userId,
-                                  productList.total.toString(),
-                                  selection.table)
-                              .then((value) {
-                            productList.productList.forEach((element) async {
-                              try {
-                                final result = await writeKOTMasterDetails(
-                                    value,
-                                    "1",
-                                    element.product.prodId.toString(),
-                                    element.quantity.toString(),
-                                    element.product.retailPrice.toString(),
-                                    element.rowId,
-                                    element.product.narration);
-                                // print(result);
-                              } finally {
-                                productList.deleteById(
-                                    productList.productList.indexOf(element));
-                              }
+                          if (selection.kotEntryId.isEmpty) {
+                            writeKOTMaster(
+                                    selection.type,
+                                    selection.carNo,
+                                    selection.contactNo,
+                                    selection.contactName,
+                                    await Constants.userId,
+                                    productList.total.toString(),
+                                    selection.table)
+                                .then((value) async {
+                              await productSubmit(productList, value);
                             });
-                          });
+                          } else {
+                            await productSubmit(
+                                productList, selection.kotEntryId);
+                          }
                         }),
                   );
                 }),
@@ -257,6 +248,26 @@ class _CartScreenState extends State<CartScreen> {
           ],
         ),
       );
+    });
+  }
+
+  Future<void> productSubmit(
+      ProductsListModel productList, String value) async {
+    productList.productList.forEach((element) async {
+      try {
+        print(value);
+        final result = await writeKOTMasterDetails(
+            value,
+            "1",
+            element.product.prodId.toString(),
+            element.quantity.toString(),
+            element.product.retailPrice.toString(),
+            element.rowId,
+            element.product.narration);
+        print(result);
+      } finally {
+        productList.deleteById(productList.productList.indexOf(element));
+      }
     });
   }
 }

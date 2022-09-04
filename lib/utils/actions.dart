@@ -2,13 +2,18 @@ import 'dart:convert';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zoomie_kot/models/kitchen.dart';
 import 'package:zoomie_kot/models/modifier_model.dart';
 import 'package:zoomie_kot/models/pending_details.dart';
 import 'package:zoomie_kot/models/pending_item.dart';
+import 'package:zoomie_kot/models/provider_model/id_model.dart';
+import 'package:zoomie_kot/models/provider_model/selection.dart';
 import 'package:zoomie_kot/utils/network_service.dart';
 import 'package:intl/intl.dart';
+
+import '../models/provider_model/product_list.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 
 Future<String> writeKOTMaster(
@@ -24,7 +29,7 @@ Future<String> writeKOTMaster(
   String formattedDate = formatter.format(now);
 
   final result = await getData(
-      "KOT/WriteKOTMaster?entryDate=$formattedDate&systemId=1&customerId=1&salesmanId=$salesMan&kotTotalAmount=$totalAmount&userId=$salesMan&tableId=$table&orderType=$type",
+      "KOT/WriteKOTMaster?entryDate=$formattedDate&systemId=1&customerId=60&salesmanId=$salesMan&kotTotalAmount=$totalAmount&userId=$salesMan&tableId=$table&orderType=$type",
       post: false);
   // print(result);
   return result.first['BillID'].toString();
@@ -37,6 +42,12 @@ writeKOTMasterDetails(String kotEntryId, String serialNo, String productId,
       post: false);
   print(result);
   return result.first.toString();
+}
+
+newOrder(BuildContext context) {
+  Provider.of<ProductsListModel>(context, listen: false).init();
+  Provider.of<Selection>(context, listen: false).init();
+  Provider.of<IdModel>(context, listen: false).init();
 }
 
 Future<List<PendingItem>> getPendingKOTMaster() async {

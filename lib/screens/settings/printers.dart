@@ -30,6 +30,11 @@ class _PrinterSettingsState extends State<PrinterSettings> {
         isNetwork = value != "bluetooth";
       });
     });
+    getSharedPrefString("bluetooth_name").then((value) {
+      setState(() {
+        bluetoothname = value;
+      });
+    });
   }
 
   @override
@@ -62,7 +67,7 @@ class _PrinterSettingsState extends State<PrinterSettings> {
               children: [
                 Text("Please select printer type : "),
                 FlutterSwitch(
-                  width: 250.0,
+                  width: 225.0,
                   activeText: "Network",
                   inactiveText: "Bluetooth",
                   height: 55.0,

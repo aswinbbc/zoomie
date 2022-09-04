@@ -22,6 +22,12 @@ class ProductsListModel with ChangeNotifier {
         .toList();
   }
 
+  init() {
+    _lst.clear();
+    _total = 0;
+    notifyListeners();
+  }
+
   add(Product product, int quantity) {
     _lst.add(CartItem(product, quantity));
     notifyListeners();

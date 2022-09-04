@@ -18,7 +18,7 @@ class PendingItem {
   PendingItem.fromJson(Map<String, dynamic> json) {
     salesId = json['sales_id'];
     billNo = json['bill_No'];
-    carNo = json['car_no'];
+    carNo = json['car_no1'];
     tableName = json['table_name'];
     tableId = json['table_id'];
     userId = json['user_id'];

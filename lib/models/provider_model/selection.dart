@@ -19,6 +19,16 @@ class Selection extends ChangeNotifier {
     notifyListeners();
   }
 
+  init() {
+    _type = "Dining";
+    _table = "0";
+    _carNo = "";
+    _contactNo = "";
+    _contactName = "";
+    _kotEntryId = "";
+    notifyListeners();
+  }
+
   set setKOTEntryId(String id) {
     _kotEntryId = id;
     notifyListeners();

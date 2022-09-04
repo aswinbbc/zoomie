@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:zoomie_kot/screens/pending/pending_screen.dart';
+import 'package:zoomie_kot/utils/actions.dart';
 import 'package:zoomie_kot/utils/constant.dart';
 
 import '../models/provider_model/selection.dart';
@@ -29,7 +30,8 @@ class _SideMenuState extends State<SideMenu> {
   static List<Widget> items = [
     Tables(),
     const TakeAway(),
-    const PendingScreen()
+    const PendingScreen(),
+    Tables(),
   ];
 
   @override
@@ -62,6 +64,17 @@ class _SideMenuState extends State<SideMenu> {
                     if (!Responsive.isDesktop(context)) CloseButton(),
                   ]),
                 ),
+              ),
+              SideMenuItem(
+                press: () {
+                  newOrder(context);
+                  setState(() {
+                    selectedIndex = 3;
+                  });
+                },
+                title: "New / Clear",
+                iconSrc: "assets/Icons/Trash.svg",
+                isActive: selectedIndex == 3,
               ),
               SideMenuItem(
                 press: () {
