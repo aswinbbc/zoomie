@@ -48,6 +48,7 @@ class _TablesState extends State<Tables> {
                   .map((e) => buildTable(context,
                       title: "table ${e.tableName}",
                       tableNo: e.tableId.toString(),
+                      tableName: e.tableName.toString(),
                       position: tables.indexOf(e)))
                   .toList();
               return Wrap(direction: Axis.horizontal, children: [...tableWids]);
@@ -63,12 +64,17 @@ class _TablesState extends State<Tables> {
   }
 
   Container buildTable(BuildContext context,
-      {required String title, required int position, required String tableNo}) {
+      {required String title,
+      required int position,
+      required String tableNo,
+      required String tableName}) {
     return Container(
       child: Consumer<Selection>(builder: (context, selection, _) {
         return InkWell(
           onTap: () {
             Provider.of<Selection>(context, listen: false).setTable = tableNo;
+            Provider.of<Selection>(context, listen: false).setTableName =
+                tableName;
             setState(() {
               selectedId = position;
             });

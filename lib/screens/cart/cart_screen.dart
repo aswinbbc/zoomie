@@ -184,65 +184,73 @@ class _CartScreenState extends State<CartScreen> {
                       },
                     ),
                   ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Card(
+                      color: Colors.blueGrey,
+                      child:
+                          Consumer<Selection>(builder: (context, selection, _) {
+                        return ListTile(
+                          title: const Text("Total amount:"),
+                          subtitle: Text(
+                              "${productList.total.toStringAsFixed(2)}",
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 20,
+                                  color: Colors.black)),
+                          trailing: ElevatedButton(
+                              child: const Text("Submit"),
+                              onPressed: () async {
+                                if (!isNetwork) {
+                                  final selectedAddress =
+                                      await getSharedPrefString(
+                                          "bluetooth_name");
+
+                                  selectedAddress.isNotEmpty
+                                      ? controller?.print(
+                                          address: selectedAddress)
+                                      : showMessage("please select printer");
+                                } else {
+                                  final kitchens = await getAllKitchens();
+                                  kitchens.forEach((kitchen) async {
+                                    List<CartItem> products = productList
+                                        .productList
+                                        .where((element) =>
+                                            element.product.kitchenId ==
+                                            kitchen.pknId)
+                                        .toList();
+
+                                    products.isNotEmpty
+                                        ? await printNetwork(
+                                            products,
+                                            selection,
+                                            await getSharedPrefString(
+                                                kitchen.pknId!))
+                                        : null;
+                                  });
+                                }
+                                if (selection.kotEntryId.isEmpty) {
+                                  writeKOTMaster(
+                                          selection.type,
+                                          selection.carNo,
+                                          selection.contactNo,
+                                          selection.contactName,
+                                          await Constants.userId,
+                                          productList.total.toString(),
+                                          selection.table)
+                                      .then((value) async {
+                                    await productSubmit(productList, value);
+                                  });
+                                } else {
+                                  await productSubmit(
+                                      productList, selection.kotEntryId);
+                                }
+                              }),
+                        );
+                      }),
+                    ),
+                  ),
                 ],
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Card(
-                color: Colors.blueGrey,
-                child: Consumer<Selection>(builder: (context, selection, _) {
-                  return ListTile(
-                    title: const Text("Total amount:"),
-                    subtitle: Text("${productList.total.toStringAsFixed(2)}",
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20,
-                            color: Colors.black)),
-                    trailing: ElevatedButton(
-                        child: const Text("Submit"),
-                        onPressed: () async {
-                          if (!isNetwork) {
-                            final selectedAddress =
-                                await getSharedPrefString("bluetooth_name");
-
-                            selectedAddress.isNotEmpty
-                                ? controller?.print(address: selectedAddress)
-                                : showMessage("please select printer");
-                          } else {
-                            final kitchens = await getAllKitchens();
-                            kitchens.forEach((kitchen) async {
-                              List<CartItem> products = productList.productList
-                                  .where((element) =>
-                                      element.product.kitchenId ==
-                                      kitchen.pknId)
-                                  .toList();
-
-                              products.isNotEmpty
-                                  ? await printNetwork(products, selection,
-                                      await getSharedPrefString(kitchen.pknId!))
-                                  : null;
-                            });
-                          }
-                          if (selection.kotEntryId.isEmpty) {
-                            writeKOTMaster(
-                                    selection.type,
-                                    selection.carNo,
-                                    selection.contactNo,
-                                    selection.contactName,
-                                    await Constants.userId,
-                                    productList.total.toString(),
-                                    selection.table)
-                                .then((value) async {
-                              await productSubmit(productList, value);
-                            });
-                          } else {
-                            await productSubmit(
-                                productList, selection.kotEntryId);
-                          }
-                        }),
-                  );
-                }),
               ),
             ),
           ],

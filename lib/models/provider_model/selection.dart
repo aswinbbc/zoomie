@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 class Selection extends ChangeNotifier {
   String _type = "Dining",
       _table = "0",
+      _tableName = "",
       _carNo = "",
       _contactNo = "",
       _contactName = "",
       _kotEntryId = "";
   String get type => _type;
   String get table => _table;
+  String get tableName => _tableName;
   String get carNo => _carNo;
   String get contactNo => _contactNo;
   String get contactName => _contactName;
@@ -22,6 +24,7 @@ class Selection extends ChangeNotifier {
   init() {
     _type = "Dining";
     _table = "0";
+    _tableName = "";
     _carNo = "";
     _contactNo = "";
     _contactName = "";
@@ -36,6 +39,11 @@ class Selection extends ChangeNotifier {
 
   set setTable(String table) {
     _table = table;
+    notifyListeners();
+  }
+
+  set setTableName(String table) {
+    _tableName = table;
     notifyListeners();
   }
 

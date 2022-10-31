@@ -9,7 +9,7 @@ void testReceipt(NetworkPrinter printer, List<CartItem> productsList,
     Selection selection, String name) {
   String cdate = DateFormat("yyyy-MM-dd").format(DateTime.now());
   String ctime = DateFormat("hh:mm:ss a").format(DateTime.now());
-  printer.text('KOT PRINT',
+  printer.text('KOT PRINT: ${selection.type}',
       styles: const PosStyles(
           bold: true,
           height: PosTextSize.size2,
@@ -103,7 +103,7 @@ void testReceipt(NetworkPrinter printer, List<CartItem> productsList,
       ),
     ),
     PosColumn(
-      text: selection.table,
+      text: selection.tableName,
       width: 8,
       styles: const PosStyles(
         bold: true,
@@ -212,7 +212,7 @@ void testp(NetworkPrinter printer) {
 printNetwork(List<CartItem> productList, selection, String printerIp) async {
   const PaperSize paper = PaperSize.mm80;
   final profile = await CapabilityProfile.load();
-  final String name = await Constants.userId;
+  final String name = await Constants.userName;
   final printer = NetworkPrinter(paper, profile);
 
   final PosPrintResult res = await printer.connect(printerIp, port: 9100);

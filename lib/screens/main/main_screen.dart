@@ -87,7 +87,7 @@ class _MainScreenState extends State<MainScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                            '${selection.type} # ${selection.type == 'Dining' ? 'Table : ' + selection.table : 'Car No : ' + selection.carNo}'),
+                            '${selection.type} # ${selection.type == 'Dining' ? 'Table : ' + selection.tableName : 'Car No : ' + selection.carNo}'),
                       ],
                     ),
                   ),
