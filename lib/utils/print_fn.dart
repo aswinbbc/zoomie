@@ -135,6 +135,27 @@ void testReceipt(NetworkPrinter printer, List<CartItem> productsList,
     ),
   ]);
 
+  printer.row([
+    PosColumn(
+      text: 'KOT NO:',
+      width: 3,
+      styles: const PosStyles(
+        align: PosAlign.left,
+        underline: true,
+        bold: true,
+      ),
+    ),
+    PosColumn(
+      text: selection.kotEntryId.toString(),
+      width: 9,
+      styles: const PosStyles(
+        bold: true,
+        align: PosAlign.left,
+        underline: true,
+      ),
+    ),
+  ]);
+
   printer.feed(2);
   printer.cut();
 }

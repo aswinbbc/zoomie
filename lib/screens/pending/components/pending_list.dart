@@ -45,13 +45,17 @@ class PendingList extends StatelessWidget {
                           color: Colors.red,
                           child: ListTile(
                             leading: const Icon(Icons.dining),
-                            title: Text(pendingItem.tableId!),
+                            title: Text(pendingItem.tableId! +
+                                "\nUser:" +
+                                pendingItem.userName!),
                             subtitle: Text("KNo:" + pendingItem.billNo!),
                           ))
                       : Card(
                           child: ListTile(
                           leading: const Icon(Icons.car_repair),
-                          title: Text(pendingItem.carNo!),
+                          title: Text(pendingItem.carNo! +
+                              "\nUser:" +
+                              pendingItem.userName!),
                           subtitle: Text("KNo:" + pendingItem.billNo!),
                         )),
                 );

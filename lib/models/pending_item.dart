@@ -5,6 +5,7 @@ class PendingItem {
   String? tableName;
   String? tableId;
   String? userId;
+  String? userName;
   String? orderType;
 
   PendingItem(
@@ -13,6 +14,7 @@ class PendingItem {
       this.carNo,
       this.tableName,
       this.userId,
+      this.userName,
       this.orderType});
 
   PendingItem.fromJson(Map<String, dynamic> json) {
@@ -22,6 +24,7 @@ class PendingItem {
     tableName = json['table_name'];
     tableId = json['table_id'];
     userId = json['user_id'];
+    userName = json['userName'];
     orderType = json['order_type'];
   }
 
@@ -33,6 +36,7 @@ class PendingItem {
     data['table_name'] = tableName;
     data['table_id'] = tableId;
     data['user_id'] = userId;
+    data['userName'] = userName;
     data['order_type'] = orderType;
     return data;
   }
