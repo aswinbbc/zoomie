@@ -15,7 +15,16 @@ import 'package:intl/intl.dart';
 
 import '../models/provider_model/product_list.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
-
+/** call....**
+                                        writeKOTMaster(
+                                          selection.type,
+                                          selection.carNo,
+                                          selection.contactNo,
+                                          selection.contactName,
+                                          await Constants.userId,
+                                          productList.total.toString(),
+                                          selection.table)
+**/ 
 Future<String> writeKOTMaster(
     String type,
     String carNo,

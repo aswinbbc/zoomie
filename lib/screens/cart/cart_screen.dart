@@ -53,6 +53,7 @@ class _CartScreenState extends State<CartScreen> {
         child: Stack(
           children: [
             Visibility(
+              visible: false,
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Expanded(
@@ -156,7 +157,7 @@ class _CartScreenState extends State<CartScreen> {
                   Expanded(
                     child: ListView.builder(
                       key: UniqueKey(),
-                      shrinkWrap: true,
+                      // shrinkWrap: true,
                       itemCount: productList.count,
                       itemBuilder: (context, index) {
                         return Consumer<ProductsListModel>(
