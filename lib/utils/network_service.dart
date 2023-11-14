@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
+import 'package:zoomie_kot/utils/actions.dart';
 import '/utils/constant.dart';
 
 const Map<String, dynamic> temp = {};
@@ -30,7 +31,13 @@ Future getData(String url,
     if (kDebugMode) {
       print(data);
     }
-    return jsonDecode(data);
+    try {
+      return jsonDecode(data);
+    } on Exception catch (e) {
+      showMessage('no data found.');
+    }
+  } else {
+    showMessage('${result.statusCode} : something went wrong...');
   }
 }
 

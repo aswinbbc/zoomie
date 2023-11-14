@@ -5,7 +5,6 @@ import 'package:zoomie_kot/models/provider_model/id_model.dart';
 import 'package:zoomie_kot/models/sub_category.dart';
 
 import '../models/all_lists.dart';
-import '../models/category.dart';
 import '../utils/constants.dart';
 
 class SubCategoryChips extends StatefulWidget {
@@ -41,6 +40,8 @@ class _SubCategoryChipsState extends State<SubCategoryChips> {
                           return Padding(
                             padding: EdgeInsets.only(top: 20),
                             child: ChoiceChip(
+                              key: Key(
+                                  '$index${SubCategories.elementAt(index).subCategoryName}'),
                               avatar: const Image(
                                 image: NetworkImage(
                                     "https://i.pinimg.com/originals/dd/9d/c9/dd9dc9d83423bc037b511d73b29e6b80.png"),
@@ -61,18 +62,13 @@ class _SubCategoryChipsState extends State<SubCategoryChips> {
                               ),
                               selected: _value == index,
                               onSelected: (bool selected) {
-                                // print("sub c :" +
-                                //     categories
-                                //         .elementAt(index)
-                                //         .categId
-                                //         .toString());
                                 Provider.of<IdModel>(context, listen: false)
                                         .setSubCategoryId =
                                     SubCategories.elementAt(index)
                                         .idForDisplay
                                         .toString();
                                 setState(() {
-                                  _value = selected ? index : -1;
+                                  _value = index;
                                 });
                               },
                             ).addNeumorphism(),
@@ -93,7 +89,7 @@ class _SubCategoryChipsState extends State<SubCategoryChips> {
               "Sub Categories",
               style: Theme.of(context)
                   .textTheme
-                  .headline6!
+                  .titleLarge!
                   .copyWith(color: kGrayColor),
             ),
           ),

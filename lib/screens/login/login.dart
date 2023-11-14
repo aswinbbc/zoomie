@@ -106,7 +106,7 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
                   text: 'Innovation at its',
                 ),
                 TextSpan(
-                  text: ' peack',
+                  text: ' peak',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
@@ -248,6 +248,8 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
       },
     ).then((value) async {
       try {
+        if (value.first.containsKey('Status'))
+          showMessage(value.first['Status']);
         // print(value.first);
         if (value.first.containsKey('UserID')) {
           // Obtain shared preferences.

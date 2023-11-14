@@ -6,22 +6,7 @@ class Product {
   String? barcodeTagName;
   String? catId;
   String? subCatId;
-  String? mesId;
-  String? catName;
-  String? mesName;
-  String? purchasePrice;
-  String? retailPrice;
-  String? mrp;
-  String? qutationPrice;
-  String? opStock;
   String? typeId;
-  String? typeName;
-  String? wholesalePrice;
-  String? qtyStock;
-  String? qtyRate;
-  String? opConvertStock;
-  String? activeConvert;
-  String? convertMesure;
   String? dateAdded;
   String? subName;
   String? productValue;
@@ -29,8 +14,6 @@ class Product {
   String? username;
   String? barcode;
   String? rack;
-  String? pfPercentage;
-  String? cfPercentage;
   String? active;
   String? systemId;
   String? isSynched;
@@ -65,7 +48,7 @@ class Product {
   String? mname;
   String? purchaseprice;
   String? retailprice;
-  String? mrp1;
+  String? mrp;
   String? qutationprice;
   String? wholesaleprice;
   String? openingStock;
@@ -94,22 +77,9 @@ class Product {
     this.barcodeTagName,
     this.catId,
     this.subCatId,
-    this.mesId,
-    this.catName,
-    this.mesName,
-    this.purchasePrice,
-    this.retailPrice,
-    this.mrp,
-    this.qutationPrice,
-    this.opStock,
+
     this.typeId,
-    this.typeName,
-    this.wholesalePrice,
-    this.qtyStock,
-    this.qtyRate,
-    this.opConvertStock,
-    this.activeConvert,
-    this.convertMesure,
+
     this.dateAdded,
     this.subName,
     this.productValue,
@@ -117,8 +87,7 @@ class Product {
     this.username,
     this.barcode,
     this.rack,
-    this.pfPercentage,
-    this.cfPercentage,
+
     this.active,
     this.systemId,
     this.isSynched,
@@ -153,7 +122,7 @@ class Product {
     this.mname,
     this.purchaseprice,
     this.retailprice,
-    this.mrp1,
+    this.mrp,
     this.qutationprice,
     this.wholesaleprice,
     this.openingStock,
@@ -182,22 +151,7 @@ class Product {
     barcodeTagName = json['barcode_tag_name'];
     catId = json['cat_id'];
     subCatId = json['sub_cat_id'];
-    mesId = json['mes_id'];
-    catName = json['cat_name'];
-    mesName = json['mes_name'];
-    purchasePrice = json['purchase_price'];
-    retailPrice = json['retail_price'];
-    mrp = json['mrp'];
-    qutationPrice = json['qutation_price'];
-    opStock = json['op_stock'];
     typeId = json['type_id'];
-    typeName = json['type_name'];
-    wholesalePrice = json['wholesale_price'];
-    qtyStock = json['qty_stock'];
-    qtyRate = json['Qty_rate'];
-    opConvertStock = json['op_convert_stock'];
-    activeConvert = json['ActiveConvert'];
-    convertMesure = json['convert_Mesure'];
     dateAdded = json['date_added'];
     subName = json['subName'];
     productValue = json['productValue'];
@@ -205,8 +159,6 @@ class Product {
     username = json['username'];
     barcode = json['barcode'];
     rack = json['rack'];
-    pfPercentage = json['pfPercentage'];
-    cfPercentage = json['cfPercentage'];
     active = json['active'];
     systemId = json['system_id'];
     isSynched = json['is_synched'];
@@ -241,7 +193,7 @@ class Product {
     mname = json['mname'];
     purchaseprice = json['purchaseprice'];
     retailprice = json['retailprice'];
-    mrp1 = json['mrp1'];
+    mrp = json['mrp'];
     qutationprice = json['qutationprice'];
     wholesaleprice = json['wholesaleprice'];
     openingStock = json['openingStock'];
@@ -271,22 +223,7 @@ class Product {
     data['barcode_tag_name'] = barcodeTagName;
     data['cat_id'] = catId;
     data['sub_cat_id'] = subCatId;
-    data['mes_id'] = mesId;
-    data['cat_name'] = catName;
-    data['mes_name'] = mesName;
-    data['purchase_price'] = purchasePrice;
-    data['retail_price'] = retailPrice;
-    data['mrp'] = mrp;
-    data['qutation_price'] = qutationPrice;
-    data['op_stock'] = opStock;
     data['type_id'] = typeId;
-    data['type_name'] = typeName;
-    data['wholesale_price'] = wholesalePrice;
-    data['qty_stock'] = qtyStock;
-    data['Qty_rate'] = qtyRate;
-    data['op_convert_stock'] = opConvertStock;
-    data['ActiveConvert'] = activeConvert;
-    data['convert_Mesure'] = convertMesure;
     data['date_added'] = dateAdded;
     data['subName'] = subName;
     data['productValue'] = productValue;
@@ -294,8 +231,6 @@ class Product {
     data['username'] = username;
     data['barcode'] = barcode;
     data['rack'] = rack;
-    data['pfPercentage'] = pfPercentage;
-    data['cfPercentage'] = cfPercentage;
     data['active'] = active;
     data['system_id'] = systemId;
     data['is_synched'] = isSynched;
@@ -330,7 +265,7 @@ class Product {
     data['mname'] = mname;
     data['purchaseprice'] = purchaseprice;
     data['retailprice'] = retailprice;
-    data['mrp1'] = mrp1;
+    data['mrp'] = mrp;
     data['qutationprice'] = qutationprice;
     data['wholesaleprice'] = wholesaleprice;
     data['openingStock'] = openingStock;

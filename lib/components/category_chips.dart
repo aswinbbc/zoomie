@@ -58,10 +58,10 @@ class _CategoryChipsState extends State<CategoryChips> {
                             onSelected: (bool selected) {
                               // print(categories.elementAt(index).pcId);
                               Provider.of<IdModel>(context, listen: false)
-                                      .setCategoryId =
-                                  categories.elementAt(index).pcId.toString();
+                                ..setCategoryId =
+                                    categories.elementAt(index).pcId.toString();
                               setState(() {
-                                _value = selected ? index : -1;
+                                _value = index;
                               });
                             },
                           ).addNeumorphism(),
@@ -84,7 +84,7 @@ class _CategoryChipsState extends State<CategoryChips> {
               "Categories",
               style: Theme.of(context)
                   .textTheme
-                  .headline6!
+                  .titleLarge!
                   .copyWith(color: kGrayColor),
             ),
           ),

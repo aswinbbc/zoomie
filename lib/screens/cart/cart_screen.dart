@@ -24,16 +24,15 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
-    init();
   }
 
-  init() async {
+  Future<bool> init() async {
     var type = await getSharedPrefString("printer_type");
     var name = await Constants.userName;
-    setState(() {
-      isNetwork = type != "bluetooth";
-      uname = name;
-    });
+
+    isNetwork = type != "bluetooth";
+    uname = name;
+    return true;
   }
 
   ReceiptController? controller;
@@ -47,216 +46,226 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ProductsListModel>(builder: (context, productList, _) {
-      return Padding(
-        padding: const EdgeInsets.only(left: 18.0, right: 18.0, top: 25.0),
-        child: Stack(
-          children: [
-            Visibility(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Expanded(
-                  child: Receipt(
-                    builder: (context) {
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          const Center(
-                            child: Text(
-                              'KOT PRINT',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          const Divider(thickness: 4),
-                          Row(
+    return FutureBuilder(
+        future: init(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData)
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          return Consumer<ProductsListModel>(
+              builder: (context, productList, _) {
+            return Padding(
+              padding:
+                  const EdgeInsets.only(left: 18.0, right: 18.0, top: 25.0),
+              child: Stack(
+                children: [
+                  Visibility(
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Receipt(
+                        builder: (context) {
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              const Text(
-                                'Date:',
+                              const Center(
+                                child: Text(
+                                  'KOT PRINT',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
-                              const SizedBox(width: 8),
-                              Text(
-                                '$cdate $ctime',
-                              ),
-                            ],
-                          ),
-                          const Divider(thickness: 4),
-                          for (CartItem item in productList.productList)
-                            if (item.rowId == "0")
+                              const Divider(thickness: 4),
                               Row(
                                 children: [
-                                  Expanded(
-                                    child: Text(
-                                      item.product.prodName! +
-                                          ' ' +
-                                          item.product.narration,
-                                    ),
+                                  const Text(
+                                    'Date:',
                                   ),
+                                  const SizedBox(width: 8),
                                   Text(
-                                    item.quantity.toString(),
+                                    '$cdate $ctime',
                                   ),
                                 ],
                               ),
-                          const Divider(thickness: 4),
-                          Row(
-                            children: [
-                              const Text(
-                                'table name:',
+                              const Divider(thickness: 4),
+                              for (CartItem item in productList.productList)
+                                if (item.rowId == "0")
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          item.product.prodName! +
+                                              ' ' +
+                                              item.product.narration,
+                                        ),
+                                      ),
+                                      Text(
+                                        item.quantity.toString(),
+                                      ),
+                                    ],
+                                  ),
+                              const Divider(thickness: 4),
+                              Row(
+                                children: [
+                                  const Text(
+                                    'table name:',
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    Provider.of<Selection>(context).table,
+                                  ),
+                                ],
                               ),
-                              const SizedBox(width: 8),
-                              Text(
-                                Provider.of<Selection>(context).table,
+                              Row(
+                                children: [
+                                  const Text(
+                                    'username:',
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    uname,
+                                  ),
+                                ],
+                              ),
+                              const Divider(thickness: 4),
+                              const SizedBox(
+                                width: 8,
+                                height: 8,
+                              ),
+                              const Text(
+                                '.',
                               ),
                             ],
-                          ),
-                          Row(
-                            children: [
-                              const Text(
-                                'username:',
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                uname,
-                              ),
-                            ],
-                          ),
-                          const Divider(thickness: 4),
-                          const SizedBox(
-                            width: 8,
-                            height: 8,
-                          ),
-                          const Text(
-                            '.',
-                          ),
-                        ],
-                      );
-                    },
-                    onInitialized: (controller) {
-                      this.controller = controller;
-                    },
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              color: Colors.white,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Cart',
-                    maxLines: 20,
-                    style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                      key: UniqueKey(),
-                      shrinkWrap: true,
-                      itemCount: productList.count,
-                      itemBuilder: (context, index) {
-                        return Consumer<ProductsListModel>(
-                            builder: (context, productList, child) {
-                          return CartProductCard(
-                              onCountChange: ((count) {
-                                productList.edit(
-                                    index,
-                                    productList.productList
-                                        .elementAt(index)
-                                        .product,
-                                    count);
-                              }),
-                              onRemove: () {
-                                productList.deleteById(index);
-                              },
-                              count: productList.productList
-                                  .elementAt(index)
-                                  .quantity,
-                              index: index,
-                              product: productList.productList
-                                  .elementAt(index)
-                                  .product);
-                        });
-                      },
+                          );
+                        },
+                        onInitialized: (controller) {
+                          this.controller = controller;
+                        },
+                      ),
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Card(
-                      color: Colors.blueGrey,
-                      child:
-                          Consumer<Selection>(builder: (context, selection, _) {
-                        return ListTile(
-                          title: const Text("Total amount:"),
-                          subtitle: Text(
-                              "${productList.total.toStringAsFixed(2)}",
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 20,
-                                  color: Colors.black)),
-                          trailing: ElevatedButton(
-                              child: const Text("Submit"),
-                              onPressed: () async {
-                                if (!isNetwork) {
-                                  final selectedAddress =
-                                      await getSharedPrefString(
-                                          "bluetooth_name");
-
-                                  selectedAddress.isNotEmpty
-                                      ? controller?.print(
-                                          address: selectedAddress)
-                                      : showMessage("please select printer");
-                                } else {
-                                  final kitchens = await getAllKitchens();
-                                  kitchens.forEach((kitchen) async {
-                                    List<CartItem> products = productList
-                                        .productList
-                                        .where((element) =>
-                                            element.product.kitchenId ==
-                                            kitchen.pknId)
-                                        .toList();
-
-                                    products.isNotEmpty
-                                        ? await printNetwork(
-                                            products,
-                                            selection,
+                  Container(
+                    color: Colors.white,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Cart',
+                          maxLines: 20,
+                          style: TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
+                        ),
+                        Expanded(
+                          child: ListView.builder(
+                            key: UniqueKey(),
+                            shrinkWrap: true,
+                            itemCount: productList.count,
+                            itemBuilder: (context, index) {
+                              return Consumer<ProductsListModel>(
+                                  builder: (context, productList, child) {
+                                return CartProductCard(
+                                    onCountChange: ((count) {
+                                      productList.edit(
+                                          index,
+                                          productList.productList
+                                              .elementAt(index)
+                                              .product,
+                                          count);
+                                    }),
+                                    onRemove: () {
+                                      productList.deleteById(index);
+                                    },
+                                    count: productList.productList
+                                        .elementAt(index)
+                                        .quantity,
+                                    index: index,
+                                    product: productList.productList
+                                        .elementAt(index)
+                                        .product);
+                              });
+                            },
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Card(
+                            color: Colors.blueGrey,
+                            child: Consumer<Selection>(
+                                builder: (context, selection, _) {
+                              return ListTile(
+                                title: const Text("Total amount:"),
+                                subtitle: Text(
+                                    "${productList.total.toStringAsFixed(2)}",
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 20,
+                                        color: Colors.black)),
+                                trailing: ElevatedButton(
+                                    child: const Text("Submit"),
+                                    onPressed: () async {
+                                      if (!isNetwork) {
+                                        final selectedAddress =
                                             await getSharedPrefString(
-                                                kitchen.pknId!))
-                                        : null;
-                                  });
-                                }
-                                if (selection.kotEntryId.isEmpty) {
-                                  writeKOTMaster(
-                                          selection.type,
-                                          selection.carNo,
-                                          selection.contactNo,
-                                          selection.contactName,
-                                          await Constants.userId,
-                                          productList.total.toString(),
-                                          selection.table)
-                                      .then((value) async {
-                                    await productSubmit(productList, value);
-                                  });
-                                } else {
-                                  await productSubmit(
-                                      productList, selection.kotEntryId);
-                                }
-                              }),
-                        );
-                      }),
+                                                "bluetooth_name");
+
+                                        selectedAddress.isNotEmpty
+                                            ? controller?.print(
+                                                address: selectedAddress)
+                                            : showMessage(
+                                                "please select printer");
+                                      } else {
+                                        final kitchens = await getAllKitchens();
+                                        kitchens.forEach((kitchen) async {
+                                          List<CartItem> products = productList
+                                              .productList
+                                              .where((element) =>
+                                                  element.product.kitchenId ==
+                                                  kitchen.pknId)
+                                              .toList();
+
+                                          products.isNotEmpty
+                                              ? await printNetwork(
+                                                  products,
+                                                  selection,
+                                                  await getSharedPrefString(
+                                                      kitchen.pknId!))
+                                              : null;
+                                        });
+                                      }
+                                      if (selection.kotEntryId.isEmpty) {
+                                        writeKOTMaster(
+                                                selection.type,
+                                                selection.carNo,
+                                                selection.contactNo,
+                                                selection.contactName,
+                                                await Constants.userId,
+                                                productList.total.toString(),
+                                                selection.table)
+                                            .then((value) async {
+                                          await productSubmit(
+                                              productList, value);
+                                        });
+                                      } else {
+                                        await productSubmit(
+                                            productList, selection.kotEntryId);
+                                      }
+                                    }),
+                              );
+                            }),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
-      );
-    });
+            );
+          });
+        });
   }
 
   Future<void> productSubmit(
@@ -269,7 +278,7 @@ class _CartScreenState extends State<CartScreen> {
             "1",
             element.product.prodId.toString(),
             element.quantity.toString(),
-            element.product.retailPrice.toString(),
+            element.product.retailprice.toString(),
             element.rowId,
             element.product.narration);
         print(result);

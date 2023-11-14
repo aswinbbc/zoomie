@@ -56,7 +56,7 @@ class _CartProductCardState extends State<CartProductCard> {
             ],
           ),
           subtitle: Text(
-              '${double.parse(_product.retailPrice!)} x ${widget.count} = ${double.parse(_product.retailPrice!) * widget.count}'),
+              '${double.parse(_product.retailprice!)} x ${widget.count} = ${double.parse(_product.retailprice!) * widget.count}'),
           // trailing:
         ),
       ).addNeumorphism(),

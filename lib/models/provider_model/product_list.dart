@@ -11,7 +11,7 @@ class ProductsListModel with ChangeNotifier {
   double get total {
     _total = 0;
     for (var element in _lst) {
-      _total += element.quantity * double.parse(element.product.retailPrice!);
+      _total += element.quantity * double.parse(element.product.retailprice!);
     }
     return _total;
   }
@@ -58,7 +58,7 @@ class ProductsListModel with ChangeNotifier {
       Product product = Product(
         prodId: pendingItem.productId,
         prodName: pendingItem.prodName,
-        retailPrice: pendingItem.price!,
+        retailprice: pendingItem.price!,
       );
       int quantity = double.parse(pendingItem.qty!).toInt();
       return CartItem(product, quantity, rowId: pendingItem.rowId!);

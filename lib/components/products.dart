@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zoomie_kot/components/modifier.dart';
-import 'package:zoomie_kot/extensions.dart';
 import 'package:zoomie_kot/models/modifier_model.dart';
 import 'package:zoomie_kot/models/product.dart';
 import 'package:zoomie_kot/utils/actions.dart';
@@ -11,7 +10,6 @@ import 'package:zoomie_kot/widget/product_card.dart';
 import '../models/all_lists.dart';
 import '../models/provider_model/id_model.dart';
 import '../models/provider_model/product_list.dart';
-import '../models/sub_category.dart';
 import '../utils/constants.dart';
 
 class ProductsWidget extends StatefulWidget {
@@ -49,6 +47,8 @@ class _ProductsWidgetState extends State<ProductsWidget> {
                             Product _product = products.elementAt(index);
                             // print(_product.prodName);
                             return ListTile(
+                              key:
+                                  Key('${_product.prodId}${_product.prodName}'),
                               leading: const Image(
                                 image: NetworkImage(
                                     "https://cdn-icons-png.flaticon.com/512/2927/2927347.png"),
@@ -93,7 +93,7 @@ class _ProductsWidgetState extends State<ProductsWidget> {
                                 ],
                               ),
                               subtitle: Text(
-                                  'QR.${double.parse(_product.retailPrice!).toStringAsFixed(2)}'),
+                                  'QR.${double.parse(_product.retailprice!).toStringAsFixed(2)}'),
                               // trailing:
                             );
                           },
@@ -113,7 +113,7 @@ class _ProductsWidgetState extends State<ProductsWidget> {
               "Products",
               style: Theme.of(context)
                   .textTheme
-                  .headline6!
+                  .titleLarge!
                   .copyWith(color: kGrayColor),
             ),
           ),
